@@ -6,7 +6,9 @@ simtvc
 
 An R package for simulating and graphing non-proportional hazards ratios from [Cox Proportional Hazard (PH) models](http://en.wikipedia.org/wiki/Proportional_hazards_models).
 
-Currently it can simulate and graph hazard ratios *one* variable at a time. Also, only natural log time interactions are allowed.
+For more information see this [blog post](http://christophergandrud.blogspot.kr/2012/10/graphing-non-proportional-hazards-in-r.html)
+
+Currently `simtvc` can simulate and graph hazard ratios *one* variable at a time. Also, only natural log time interactions are allowed.
 
 
 ## Installation

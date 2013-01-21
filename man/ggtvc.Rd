@@ -3,9 +3,8 @@
 \title{Create a plot of simulated time-varying coefficients from a simtvc class object using ggplot2}
 \usage{
   ggtvc(obj, xlab = NULL, ylab = NULL, title = NULL,
-    xbreaks = NULL, xlabels = NULL, ybreaks = NULL,
-    ylabels = NULL, smoother = "auto", colour = "#A6CEE3",
-    ...)
+    xbreaks = NULL, xlabels = NULL, smoother = "auto",
+    colour = "#A6CEE3", ...)
 }
 \arguments{
   \item{obj}{a simtvc class object}
@@ -16,13 +15,12 @@
 
   \item{title}{the plot's main title}
 
-  \item{xbreaks}{breaks for x axis tick marks}
+  \item{xbreaks}{breaks for x axis tick marks. These will
+  be on the scale you used for the transformed function of
+  time.}
 
-  \item{xlabels}{labels for the x axis tick marks}
-
-  \item{ybreaks}{breaks for y axis tick marks}
-
-  \item{ylabels}{labels for the y axis tick marks}
+  \item{xlabels}{labels for the x axis tick marks. These
+  should be on the real time scale.}
 
   \item{smoother}{what type of smoothing line to use to
   summarize the plotted coefficient}
@@ -37,9 +35,8 @@
 }
 \description{
   \code{ggtvc} uses ggplot2 to plot the simulated hazard
-  ratios from a simtvc class object using ggplot2.
-  \textbf{Note:} A dotted line is created at y = 1, i.e. no
-  effect.
+  ratios from a simtvc class object using ggplot2. Note: A
+  dotted line is created at y = 1, i.e. no effect.
 }
 \seealso{
   \code{\link{coxsimtvc}} and \code{\link{ggplot2}}

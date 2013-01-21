@@ -37,7 +37,7 @@ M1 <- coxph(Surv(begin, end, event) ~
             ties = "efron")
 
 #### Create simtvc object
-Test <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv", from = 80, to = 2000, by = 15)
+Test <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv", tfunc = "linear", from = 80, to = 2000, by = 15, ci = "99")
 
 #### Graph simulated combined hazard ratios ####
 ggtvc(Test)
