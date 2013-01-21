@@ -8,12 +8,12 @@ An R package for simulating and graphing non-proportional hazards ratios from [C
 
 For more information see this [blog post](http://christophergandrud.blogspot.kr/2012/10/graphing-non-proportional-hazards-in-r.html)
 
-Currently `simtvc` can simulate and graph hazard ratios *one* variable at a time. Also, only natural log time interactions are allowed.
+Currently **simtvc** can simulate and graph hazard ratios for *one* variable at a time. Also, only natural log time interactions are allowed.
 
 
 ## Installation
 
-Use the [devtools](https://github.com/hadley/devtools) command `install_github` to install `simtvc` in R. Here is the exact code:
+Use the [devtools](https://github.com/hadley/devtools) command `install_github` to install **simtvc** in R. Here is the exact code:
 
 ```r
 devtools::install_github("simtvc", "christophergandrud")
