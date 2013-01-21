@@ -15,7 +15,7 @@
 #' @export
 #' @references Licht, Amanda A. 2011. “Change Comes with Time: Substantive Interpretation of Nonproportional Hazards in Event History Analysis.” Political Analysis 19: 227–43.
 
-coxsimtvc <- function(obj, b, btvc, nsim = 1000, from, to, by, ...)
+coxsimtvc <- function(obj, b, btvc, nsim = 1000, from, to, by, ci = 95, ...)
 {
   Coef <- matrix(obj$coefficients)
   VC <- vcov(obj)
@@ -43,6 +43,12 @@ coxsimtvc <- function(obj, b, btvc, nsim = 1000, from, to, by, ...)
 
   TVSim <- TVSim[order(TVSim$Time),]
   
-  class(TVSim) <- "simtvc"
-  TVSim
+  if 
+  
+  TVSimPerc <- ddply(TVSim, .(Time), transform, Lower = HR < quantile(HR, c(0.025)))
+  TVSimPerc <- ddply(TVSimPerc, .(Time), transform, Upper = HR > quantile(HR, c(0.975)))
+  TVSimPerc <- subset(TVSimPerc, Lower == FALSE & Upper == FALSE)
+  
+  class(TVSimPerc) <- "simtvc"
+  TVSimPerc
 }
