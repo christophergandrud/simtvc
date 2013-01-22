@@ -1,7 +1,7 @@
-#' Simulate time-varying hazard ratios for coxph fitted model objects
+#' Simulate time-varying hazard ratios for crr fitted model objects
 #' 
-#' \code{coxsimtvc} simulates a time-varying hazard ratios from coxph fitted model objects using the multivariate normal distribution
-#' @param obj a coxph fitted model object with a time interaction. 
+#' \code{coxsimtvc} simulates a time-varying hazard ratios from crr fitted model objects using the multivariate normal distribution.
+#' @param obj a crr fitted model object with a time interaction. 
 #' @param b the non-time interacted variable name
 #' @param btvc the time interacted variable name
 #' @param nsim the number of simulations to run per point in time. Default is nsim = 1000.
@@ -11,21 +11,22 @@
 #' @param to point in time to stop simulating coefficient values
 #' @param by time intervals by which to simulate coefficient values
 #' @param ci the proportion of middle simulations to keep. The default is "95", i.e. keep the middle 95 percent. Other possibilities include: "90", "99", "all".
-#' @details Simulates time-varying hazard ratios using estimates from a \code{coxph} proportional hazards model  the multivariate normal distribution. The resulting simulation values can be plotted using \code{ggtvc}.
+#' @details Simulates time-varying hazard ratios using estimates from a Fine and Gray proportional hazards model using the multivariate normal distribution. The resulting simulation values can be plotted using \code{ggtvc}.
 #' @return a simtvc object
-#' @seealso \code{\link{ggtvc}}, \code{\link{survival}}, and \code{\link{coxph}}
+#' @seealso \code{\link{ggtvc}}, \code{\link{cmprsk}}, and \code{\link{crrSC}}
 #' @import MSBVAR plyr reshape2
 #' @export
-#' @references Licht, Amanda A. 2011. “Change Comes with Time: Substantive Interpretation of Nonproportional Hazards in Event History Analysis.” Political Analysis 19: 227–43.
+#' @references Fine, Jason P, and Robert J Gray. 1999. “A Proportional Hazards Model for the Subdistribution of a Competing Risk.” Journal of the American Statistical Society 94(446): 496–509.
 
-coxsimtvc <- function(obj, b, btvc, tfunc = "linear", pow = NULL, nsim = 1000, from, to, by, ci = "95", ...)
+
+crrsimtvc <- function(obj, b, btvc, tfunc = "linear", pow = NULL, nsim = 1000, from, to, by, ci = "95", ...)
 {
-  Coef <- matrix(obj$coefficients)
-  VC <- vcov(obj)
-    
+  Coef <- obj$coef
+  VC <- obj$var
+  
   Drawn <- rmultnorm(n = nsim, mu = Coef, vmat = VC)
   DrawnDF <- data.frame(Drawn)
- 
+  
   dfn <- names(DrawnDF)
   bpos <- match(b, dfn)
   btvcpos <- match(btvc, dfn)
@@ -45,10 +46,10 @@ coxsimtvc <- function(obj, b, btvc, tfunc = "linear", pow = NULL, nsim = 1000, f
   TVSim <- data.frame(melt(TVSim))
   TVSim <- rename(TVSim, c(Var1 = "ID", Var2 = "Time", value = "TVC"))
   TVSim <- merge(Drawn, TVSim, by = "ID")
-
+  
   TVSim$CombCoef <- TVSim[[2]] + TVSim$TVC
   TVSim$HR <- exp(TVSim$CombCoef)
-
+  
   TVSim <- TVSim[order(TVSim$Time),]
   
   if (ci == "all"){

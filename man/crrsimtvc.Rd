@@ -1,12 +1,12 @@
-\name{coxsimtvc}
-\alias{coxsimtvc}
-\title{Simulate time-varying hazard ratios for coxph fitted model objects}
+\name{crrsimtvc}
+\alias{crrsimtvc}
+\title{Simulate time-varying hazard ratios for crr fitted model objects}
 \usage{
-  coxsimtvc(obj, b, btvc, tfunc = "linear", pow = NULL,
+  crrsimtvc(obj, b, btvc, tfunc = "linear", pow = NULL,
     nsim = 1000, from, to, by, ci = "95", ...)
 }
 \arguments{
-  \item{obj}{a coxph fitted model object with a time
+  \item{obj}{a crr fitted model object with a time
   interaction.}
 
   \item{b}{the non-time interacted variable name}
@@ -42,22 +42,23 @@
 }
 \description{
   \code{coxsimtvc} simulates a time-varying hazard ratios
-  from coxph fitted model objects using the multivariate
-  normal distribution
+  from crr fitted model objects using the multivariate
+  normal distribution.
 }
 \details{
   Simulates time-varying hazard ratios using estimates from
-  a \code{coxph} proportional hazards model the
+  a Fine and Gray proportional hazards model using the
   multivariate normal distribution. The resulting
   simulation values can be plotted using \code{ggtvc}.
 }
 \references{
-  Licht, Amanda A. 2011. “Change Comes with Time:
-  Substantive Interpretation of Nonproportional Hazards in
-  Event History Analysis.” Political Analysis 19: 227–43.
+  Fine, Jason P, and Robert J Gray. 1999. “A Proportional
+  Hazards Model for the Subdistribution of a Competing
+  Risk.” Journal of the American Statistical Society
+  94(446): 496–509.
 }
 \seealso{
-  \code{\link{ggtvc}}, \code{\link{survival}}, and
-  \code{\link{coxph}}
+  \code{\link{ggtvc}}, \code{\link{cmprsk}}, and
+  \code{\link{crrSC}}
 }
 
