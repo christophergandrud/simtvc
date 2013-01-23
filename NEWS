@@ -1,8 +1,8 @@
-      Version 0.1.1
+      Version 0.01.1
 
 Added the command tvc which creates creates a time interaction varible that can be used in a coxph model (or any other model with time interactions)
 
-      Version 0.1
+      Version 0.01
 
 This is the first version of simtvc. It simulates time-varying hazard ratios for one
 coefficient at a time estimated from a Cox Proportional Hazards model. It also provides
