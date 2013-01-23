@@ -9,9 +9,9 @@
   \item{obj}{a coxph fitted model object with a time
   interaction.}
 
-  \item{b}{the non-time interacted variable name}
+  \item{b}{the non-time interacted variable's name}
 
-  \item{btvc}{the time interacted variable name}
+  \item{btvc}{the time interacted variable's name}
 
   \item{nsim}{the number of simulations to run per point in
   time. Default is nsim = 1000.}

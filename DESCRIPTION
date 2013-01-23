@@ -16,5 +16,6 @@ Imports:
     ggplot2
 License: GPL (>= 2)
 Collate:
+    'tvc.R'
     'coxsimtvc.R'
     'ggtvc.R'

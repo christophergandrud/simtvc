@@ -2,8 +2,8 @@
 #' 
 #' \code{coxsimtvc} simulates a time-varying hazard ratios from coxph fitted model objects using the normal distribution.
 #' @param obj a coxph fitted model object with a time interaction. 
-#' @param b the non-time interacted variable name
-#' @param btvc the time interacted variable name
+#' @param b the non-time interacted variable's name
+#' @param btvc the time interacted variable's name
 #' @param nsim the number of simulations to run per point in time. Default is nsim = 1000.
 #' @param tfunc function of time that btvc was multiplied by. Default is "linear". Can also be "log" (natural log) and "power". If tfunc = "power" then the pow argument needs to be specified also.
 #' @param pow if tfunc = "power", then use pow to specify what power the time interaction was raised to.
