@@ -18,10 +18,8 @@
 
 ggtvc <- function(obj, xlab = NULL, ylab = NULL, title = NULL, xbreaks = NULL, xlabels = NULL, smoother = "auto", colour = "#A6CEE3", ...)
 {
-  if (class(obj) != "simtvc"){
-    cat(paste("---------", obj, " is not a simtvc class object ----------", sep = " "))
-    stop()
-  } else {
+  if (!inherits(fit, "simtvc")) 
+    stop("must be a simtvc object")
   objdf <- data.frame(obj$Time, obj$HR)
   names(objdf) <- c("Time", "HR")
   ggplot(objdf, aes(Time, HR)) +
@@ -33,5 +31,4 @@ ggtvc <- function(obj, xlab = NULL, ylab = NULL, title = NULL, xbreaks = NULL, x
           xlab(xlab) + ylab(ylab) +
           ggtitle(title) +
           theme_bw(base_size = 15)
-  }
 }
