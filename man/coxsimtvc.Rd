@@ -2,8 +2,8 @@
 \alias{coxsimtvc}
 \title{Simulate time-varying hazard ratios for coxph fitted model objects}
 \usage{
-  coxsimtvc(obj, b, btvc, tfunc = "linear", pow = NULL,
-    nsim = 1000, from, to, by, ci = "95")
+  coxsimtvc(obj, b, btvc, tfun = "linear", pow = NULL,
+    nsim = 1000, from, to, by, ci = "95", strata = FALSE)
 }
 \arguments{
   \item{obj}{a coxph fitted model object with a time
@@ -16,12 +16,12 @@
   \item{nsim}{the number of simulations to run per point in
   time. Default is nsim = 1000.}
 
-  \item{tfunc}{function of time that btvc was multiplied
-  by. Default is "linear". Can also be "log" (natural log)
-  and "power". If tfunc = "power" then the pow argument
-  needs to be specified also.}
+  \item{tfun}{function of time that btvc was multiplied by.
+  Default is "linear". Can also be "log" (natural log) and
+  "power". If tfun = "power" then the pow argument needs to
+  be specified also.}
 
-  \item{pow}{if tfunc = "power", then use pow to specify
+  \item{pow}{if tfun = "power", then use pow to specify
   what power the time interaction was raised to.}
 
   \item{from}{point in time from when to begin simulating
@@ -36,6 +36,10 @@
   \item{ci}{the proportion of middle simulations to keep.
   The default is "95", i.e. keep the middle 95 percent.
   Other possibilities include: "90", "99", "all".}
+
+  \item{strata}{logical for whether or not the coxph model
+  used stratification and you would like to simulate the
+  hazard rates for each strata}
 }
 \value{
   a simtvc object
@@ -47,8 +51,13 @@
 }
 \details{
   Simulates time-varying hazard ratios using estimates from
-  a \code{coxph} proportional hazards model. The resulting
-  simulation values can be plotted using \code{ggtvc}.
+  a \code{coxph} proportional hazards model. If strata =
+  TRUE then the hazard rate for each strata is calculated
+  assuming that b is set to 1 and all other variables are
+  set to zero. The resulting simulation values can be
+  plotted using \code{ggtvc}. Note: the stratified
+  simulations only incorporate estimation uncertainty for
+  the coefficient, not the baseline hazards.
 }
 \references{
   Licht, Amanda A. 2011. “Change Comes with Time:

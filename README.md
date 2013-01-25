@@ -13,10 +13,10 @@ Currently **simtvc** can simulate and graph hazard ratios for *one* variable at 
 
 ## Installation
 
-Use the [devtools](https://github.com/hadley/devtools) command `install_github` to install **simtvc** in R. Here is the exact code:
+Use the [devtools](https://github.com/hadley/devtools) command `install_github` to install **simtvc** in R. Here is the exact code for installing version 0.01.1:
 
 ```r
-devtools::install_github("simtvc", "christophergandrud")
+devtools::install_github("simtvc", "christophergandrud", ref = "v0.01.1")
 ```
 
 ### Future Plans
