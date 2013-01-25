@@ -12,18 +12,18 @@
 #' @param smoother what type of smoothing line to use to summarize the plotted coefficient
 #' @param colour colour of the simulated points. Default is hexadecimal colour A6CEE3.
 #' @param spalette colour palette for stratified hazard rates. Only works if strata = TRUE. Default palette is "Set1". See \code{\link{scale_colour_brewer}}.
-#' @param leg.name name of the stratified hazard rates legend. Only works if strata = TRUE
+#' @param leg.name name of the stratified hazard rates legend. Only works if strata = TRUE.
 #' @param lsize size of the smoothing line. Default is 2. See \code{\link{ggplot2}}.
 #' @param psize size of the plotted simulation points. Default is 1. See \code{\link{ggplot2}}.
 #' @param palpha point alpha (e.g. transparency). Default is 0.05. See \code{\link{ggplot2}}.
 #' @param ... other arguments passed to specific methods
 #' @return a ggplot object
-#' @details Plots either a time variying hazard ratio or the hazard rates for multiple strata.
+#' @details Plots either a time variying hazard ratio or the hazard rates for multiple strata. Currently to change the strata legend labels you need to do this manually (see \code{\link{revalue}} in the simtvc object with the strata component.
 #' @seealso \code{\link{coxsimtvc}} and \code{\link{ggplot2}}
 #' @import ggplot2
 #' @export
 
-ggtvc <- function(obj, strata = FALSE, xlab = NULL, ylab = NULL, title = NULL, xbreaks = NULL, xlabels = NULL, smoother = "auto", colour = "#AGCEE3", spalette = "Set1", leg.name = "", lsize = 2, psize = 1, palpha = 0.05, ...)
+ggtvc <- function(obj, strata = FALSE, xlab = NULL, ylab = NULL, title = NULL, xbreaks = NULL, xlabels = NULL, smoother = "auto", colour = "#AGCEE3", spalette = "Set1", leg.name = "", lsize = 2, psize = 1, palpha = 0.1, ...)
 {
   if (!inherits(obj, "simtvc")) 
     stop("must be a simtvc object")
