@@ -1,7 +1,7 @@
 ################
 # Cox TVC demo
 # Christopher Gandrud
-# 20 January 2013
+# 25 January 2013
 # Based on Licth 2011
 ################
 
@@ -12,32 +12,22 @@ library(survival)
 ## Originally downloaded from http://hdl.handle.net/1902.1/15633
 GS <- read.table("demo/GolubEUPdata.tab", sep = "\t", header = TRUE)
 
-# Create log time variable
-GS$LT <- log(GS$end)
+# Create backlogstrata
+GS$backlogstrata <- 0
+GS$backlogstrata[GS$backlog > 191] <- 1
+GS$backlogstrata[GS$backlog > 202] <- 2
 
 # Create natural log time interactions
-attach(GS)
-GS$Lqmv <- LT * qmv
-GS$Lqmvpostsea <- LT * qmvpostsea
-GS$Lcoop <- LT * coop
-GS$Lcodec <- LT * codec
-GS$Lthatcher <- LT * thatcher
-GS$Lbacklog <- LT * backlog
-detach(GS)
+GS$Lqmv <- tvc(GS, b = "qmv", tvar = "end", tfun = "log")
 
 #### Run Cox PH Model ####
-# Note, this model does not exactly match Licht (2011), but is pretty close
 M1 <- coxph(Surv(begin, end, event) ~ 
-              qmv + qmvpostsea + qmvpostteu + 
-              coop + codec + eu9 + eu10 + eu12 +
-              eu15 + thatcher + agenda + backlog +
-              Lqmv + Lqmvpostsea + Lcoop + Lcodec +
-              Lthatcher + Lbacklog, 
+              qmv + Lqmv,
             data = GS,
             ties = "efron")
 
 #### Create simtvc object
-Test <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv", tfunc = "linear", from = 80, to = 2000, by = 15, ci = "99")
+Test3 <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv", tfun = "log", from = 80, to = 2000, by = 10, ci = "99", strata = FALSE)
 
 #### Graph simulated combined hazard ratios ####
-ggtvc(Test)
+ggtvc(Test3)

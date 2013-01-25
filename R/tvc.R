@@ -4,24 +4,30 @@
 #' @param data a data frame
 #' @param b the non-time interacted variable's name
 #' @param tvar the time variable's name
-#' @param tfunc function of time that btvc was multiplied by. Default is "linear". Can also be "log" (natural log) and "power". If tfunc = "power" then the pow argument needs to be specified also.
-#' @param pow if tfunc = "power", then use pow to specify what power to raise the time interaction to.
+#' @param tfun function of time that btvc was multiplied by. Default is "linear". Can also be "log" (natural log) and "power". If tfun = "power" then the pow argument needs to be specified also.
+#' @param pow if tfun = "power", then use pow to specify what power to raise the time interaction to.
 #' @return a vector
 #' @seealso \code{\link{ggtvc}}, \code{coxsimtvc}, \code{\link{survival}}, and \code{\link{coxph}}
 #' @export
 
 
-tvc <- function(data, b, tvar, tfunc = "linear", pow = NULL)
+tvc <- function(data, b, tvar, tfun = "linear", pow = NULL)
 {
   dfn <- names(data)
   bpos <- match(b, dfn)
   tvarpos <- match(tvar, dfn)
   
-  if (tfunc == "linear"){
+  tfunOpts <- c("linear", "log", "power")
+  TestforTOpts <- tfun %in% tfunOpts
+  if (TestforTOpts == FALSE){
+    stop("Must specify tfun as 'linear', 'log', or 'power'")
+  }
+    
+  if (tfun == "linear"){
     data[[bpos]] * data[[tvarpos]]
-  } else if (tfunc == "log"){
+  } else if (tfun == "log"){
     data[[b]] * log(data[[tvarpos]])
-  } else if (tfunc == "pow") {
+  } else if (tfun == "power") {
     data[[b]] * (data[[tvarpos]])^pow
   }
 }
