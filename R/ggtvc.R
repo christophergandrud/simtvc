@@ -18,7 +18,7 @@
 
 ggtvc <- function(obj, xlab = NULL, ylab = NULL, title = NULL, xbreaks = NULL, xlabels = NULL, smoother = "auto", colour = "#A6CEE3", ...)
 {
-  if (!inherits(fit, "simtvc")) 
+  if (!inherits(obj, "simtvc")) 
     stop("must be a simtvc object")
   objdf <- data.frame(obj$Time, obj$HR)
   names(objdf) <- c("Time", "HR")

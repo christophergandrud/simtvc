@@ -18,7 +18,7 @@
 #' @export
 #' @references Licht, Amanda A. 2011. “Change Comes with Time: Substantive Interpretation of Nonproportional Hazards in Event History Analysis.” Political Analysis 19: 227–43.
 
-coxsimtvc <- function(obj, b, btvc, tfunc = "linear", pow = NULL, nsim = 1000, from, to, by, ci = "95", ...)
+coxsimtvc <- function(obj, b, btvc, tfunc = "linear", pow = NULL, nsim = 1000, from, to, by, ci = "95")
 {
   Coef <- matrix(obj$coefficients)
   VC <- vcov(obj)
