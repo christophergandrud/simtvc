@@ -6,7 +6,7 @@
     title = NULL, xbreaks = NULL, xlabels = NULL,
     smoother = "auto", colour = "#AGCEE3",
     spalette = "Set1", leg.name = "", lsize = 2, psize = 1,
-    palpha = 0.05, ...)
+    palpha = 0.1, ...)
 }
 \arguments{
   \item{obj}{a simtvc class object}
@@ -38,7 +38,7 @@
   "Set1". See \code{\link{scale_colour_brewer}}.}
 
   \item{leg.name}{name of the stratified hazard rates
-  legend. Only works if strata = TRUE}
+  legend. Only works if strata = TRUE.}
 
   \item{lsize}{size of the smoothing line. Default is 2.
   See \code{\link{ggplot2}}.}
@@ -61,7 +61,10 @@
 }
 \details{
   Plots either a time variying hazard ratio or the hazard
-  rates for multiple strata.
+  rates for multiple strata. Currently to change the strata
+  legend labels you need to do this manually (see
+  \code{\link{revalue}} in the simtvc object with the
+  strata component.
 }
 \seealso{
   \code{\link{coxsimtvc}} and \code{\link{ggplot2}}

@@ -55,7 +55,9 @@
   TRUE then the hazard rate for each strata is calculated
   assuming that b is set to 1 and all other variables are
   set to zero. The resulting simulation values can be
-  plotted using \code{ggtvc}.
+  plotted using \code{ggtvc}. Note: the stratified
+  simulations only incorporate estimation uncertainty for
+  the coefficient, not the baseline hazards.
 }
 \references{
   Licht, Amanda A. 2011. “Change Comes with Time:

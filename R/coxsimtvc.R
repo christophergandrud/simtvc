@@ -13,7 +13,7 @@
 #' @param ci the proportion of middle simulations to keep. The default is "95", i.e. keep the middle 95 percent. Other possibilities include: "90", "99", "all".
 #' @param strata logical for whether or not the coxph model used stratification and you would like to simulate the hazard rates for each strata
 #' @return a simtvc object
-#' @details Simulates time-varying hazard ratios using estimates from a \code{coxph} proportional hazards model. If strata = TRUE then the hazard rate for each strata is calculated assuming that b is set to 1 and all other variables are set to zero. The resulting simulation values can be plotted using \code{ggtvc}.
+#' @details Simulates time-varying hazard ratios using estimates from a \code{coxph} proportional hazards model. If strata = TRUE then the hazard rate for each strata is calculated assuming that b is set to 1 and all other variables are set to zero. The resulting simulation values can be plotted using \code{ggtvc}. Note: the stratified simulations only incorporate estimation uncertainty for the coefficient, not the baseline hazards.
 #' @seealso \code{\link{ggtvc}}, \code{\link{survival}}, and \code{\link{coxph}}
 #' @import MSBVAR plyr reshape2
 #' @export

@@ -1,6 +1,6 @@
 Package: simtvc
 Title: Tools for simulating and graphing time-varying coefficients.
-Description: The package simulates time-varying coefficients from Cox Proportional Hazard models and plots the results as hazard ratios
+Description: The package simulates time-varying coefficients from Cox Proportional Hazard models and plots the results as hazard ratios. It also simulates and plots stratified hazard rates.
 Version: 0.01.1
 Date: 2013-01-21
 Author: Christopher Gandrud
