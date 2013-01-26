@@ -19,3 +19,4 @@ Collate:
     'tvc.R'
     'coxsimtvc.R'
     'ggtvc.R'
+    'GolubEUPData.R'

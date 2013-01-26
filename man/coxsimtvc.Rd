@@ -59,6 +59,26 @@
   simulations only incorporate estimation uncertainty for
   the coefficient, not the baseline hazards.
 }
+\examples{
+# Load Golub & Steunenberg (2007) Data
+data("GolubEUPData")
+
+# Load survival package
+library(survival)
+
+# Create natural log time interactions
+GolubEUPData$Lqmv <- tvc(GolubEUPData, b = "qmv", tvar = "end", tfun = "log")
+
+# Run Cox PH Model
+M1 <- coxph(Surv(begin, end, event) ~  qmv + Lqmv,
+           data = GolubEUPData,
+           ties = "efron")
+
+# Create simtvc object
+simM1 <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv",
+                 tfun = "log", from = 80, to = 2000,
+                 by = 15, ci = "99")
+}
 \references{
   Licht, Amanda A. 2011. “Change Comes with Time:
   Substantive Interpretation of Nonproportional Hazards in
