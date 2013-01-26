@@ -1,0 +1,83 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Simtvc by christophergandrud</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1 class="header">Simtvc</h1>
+        <p class="header">Tools for simulating and graphing time-varying coefficients.</p>
+
+        <ul>
+          <li class="download"><a class="buttons" href="https://github.com/christophergandrud/simtvc/zipball/master">Download ZIP</a></li>
+          <li class="download"><a class="buttons" href="https://github.com/christophergandrud/simtvc/tarball/master">Download TAR</a></li>
+          <li><a class="buttons github" href="https://github.com/christophergandrud/simtvc">View On GitHub</a></li>
+        </ul>
+
+        <p class="header">This project is maintained by <a class="header name" href="https://github.com/christophergandrud">christophergandrud</a></p>
+
+
+      </header>
+      <section>
+        <h1>simtvc</h1>
+
+<h3>Christopher Gandrud</h3>
+
+<h3>Version 0.02.1</h3>
+
+<hr><p>An R package for simulating and graphing non-proportional hazards ratios from <a href="http://en.wikipedia.org/wiki/Proportional_hazards_models">Cox Proportional Hazard (PH) models</a>. It can also simulate and graph stratified non-proportional hazard rates from Cox models.</p>
+
+<p>The package includes three functions:</p>
+
+<ul>
+<li><p><code>tvc</code>: a function for creating time interactions. Currently supports <code>'linear'</code>, natural <code>'log'</code>, and exponentiation (<code>'power'</code>).</p></li>
+<li><p><code>coxsimtvc</code>: a function for simulating time-varying hazard ratios from a Cox PH model estimated using <code>coxph</code> from the <a href="http://cran.r-project.org/web/packages/survival/index.html">survival</a> package. For more information see this <a href="http://christophergandrud.blogspot.kr/2012/10/graphing-non-proportional-hazards-in-r.html">blog post</a>. If <code>strata = FALSE</code> the function will also calculated time-varying hazard ratios for multiple strata estimated from a stratified Cox PH model.</p></li>
+<li><p><code>ggtvc</code>: uses <a href="http://ggplot2.org/">ggplot2</a> to graph the simulated hazard ratios or stratified hazard rates.</p></li>
+</ul><h2>Installation</h2>
+
+<p>Use the <a href="https://github.com/hadley/devtools">devtools</a> command <code>install_github</code> to install <strong>simtvc</strong> in R. Here is the exact code for installing version 0.02:</p>
+
+<div class="highlight"><pre>devtools<span class="p">::</span>install_github<span class="p">(</span><span class="s">"simtvc"</span><span class="p">,</span> <span class="s">"christophergandrud"</span><span class="p">,</span> ref <span class="o">=</span> <span class="s">"v0.02.1"</span><span class="p">)</span>
+</pre></div>
+
+<h2>Sources</h2>
+
+<p>For more information about simulating parameter estimates to make interpretation of results easier see:</p>
+
+<p>Licht, Amanda A. 2011. <a href="http://pan.oxfordjournals.org/content/19/2/227.abstract">“Change Comes with Time: Substantive Interpretation of Nonproportional Hazards in Event History Analysis.”</a> Political Analysis 19: 227–43.</p>
+
+<p>King, Gary, Michael Tomz, and Jason Wittenberg. 2000. <a href="http://www.jstor.org/stable/2669316">“Making the Most of Statistical Analyses: Improving Interpretation and Presentation.”</a> American Journal of Political Science 44(2): 347–61.</p>
+
+<p>For more information about stratified Cox PH models (and frailties, which I am working to incorporate in future versions) see:</p>
+
+<p>Box-Steffensmeier, Janet M, and Suzanna De Boef. 2006. <a href="http://onlinelibrary.wiley.com/doi/10.1002/sim.2434/abstract;jsessionid=28218243DD3D6E01A3D10EEE75D96675.d01t02">“Repeated Events Survival Models: the Conditional Frailty Model.”</a> Statistics in Medicine 25(20): 3518–33.</p>
+
+<p>For an example of how non-proportional hazard results were often presented before <code>simtvc</code> see (some of the problems I encountered in this paper were a major part of why I'm developing this package): </p>
+
+<p>Gandrud, Christopher. 2012. <a href="http://www.tandfonline.com/doi/full/10.1080/09692290.2012.727362">“The Diffusion of Financial Supervisory Governance Ideas.”</a> Review of International Political Economy.</p>
+
+<h3>Future Plans</h3>
+
+<p>This package is in the <strong>early stages</strong> of development. I intend to expand the quantities of interest that can be simulated and graphed for Cox PH models. I am also currently working on functions that can simulate and graph hazard ratios estimated from <a href="http://www.jstor.org/stable/2670170">Fine and Gray competing risks models</a>. </p>
+
+<p>I am also working on a way to graph hazard ratios with frailties. </p>
+      </section>
+      <footer>
+        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+      </footer>
+    </div>
+    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
+		
+  </body>
+</html>
