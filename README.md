@@ -1,12 +1,14 @@
 simtvc
 ======
 
-### Version 0.02
+### Christopher Gandrud
 
-## Christopher Gandrud
+### Version 0.02.1
+
+---
 
 
-An R package for simulating and graphing non-proportional hazards ratios from [Cox Proportional Hazard (PH) models](http://en.wikipedia.org/wiki/Proportional_hazards_models). It can also simulate and graph stratified non-proportional hazard rates from cox regressions.
+An R package for simulating and graphing non-proportional hazards ratios from [Cox Proportional Hazard (PH) models](http://en.wikipedia.org/wiki/Proportional_hazards_models). It can also simulate and graph stratified non-proportional hazard rates from Cox models.
 
 The package includes three functions:
 
@@ -42,4 +44,6 @@ Gandrud, Christopher. 2012. [“The Diffusion of Financial Supervisory Governanc
 
 
 ### Future Plans
-This package is in the **early stages** of development. I intend to expand the quantities of interest that can be simulated and graphed for Cox PH models. I am also currently working on functions that can simulate and graph hazard ratios estimated from [Fine and Gray competing risks models](http://www.jstor.org/stable/2670170).  I am also working on a way to graph hazard ratios with frailties. 
+This package is in the **early stages** of development. I intend to expand the quantities of interest that can be simulated and graphed for Cox PH models. I am also currently working on functions that can simulate and graph hazard ratios estimated from [Fine and Gray competing risks models](http://www.jstor.org/stable/2670170). 
+
+I am also working on a way to graph hazard ratios with frailties. 
