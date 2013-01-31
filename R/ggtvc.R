@@ -1,24 +1,24 @@
 #' Create a plot of simulated time-varying hazard ratios or stratified time-varying hazard rates from a simtvc class object using ggplot2
 #' 
 #' \code{ggtvc} uses ggplot2 to plot the simulated hazard ratios from a simtvc class object using ggplot2. 
-#' Note: A dotted line is created at y = 1, i.e. no effect.
+#' Note: A dotted line is created at y = 1, i.e. no effect, for time-varying hazard ratio graphs.
 #' @param obj a simtvc class object
 #' @param strata logical whether or not you would like to plot the hazard rate for the separate strata
 #' @param xlab a label for the plot's x-axis
-#' @param ylab a lable of the plot's y-axis
+#' @param ylab a label of the plot's y-axis
 #' @param title the plot's main title
 #' @param xbreaks breaks for x axis tick marks. These will be on the scale you used for the transformed function of time.
 #' @param xlabels labels for the x axis tick marks. These should be on the real time scale. 
 #' @param smoother what type of smoothing line to use to summarize the plotted coefficient
 #' @param colour colour of the simulated points. Default is hexadecimal colour A6CEE3.
-#' @param spalette colour palette for stratified hazard rates. Only works if strata = TRUE. Default palette is "Set1". See \code{\link{scale_colour_brewer}}.
-#' @param leg.name name of the stratified hazard rates legend. Only works if strata = TRUE.
+#' @param spalette colour palette for stratified hazard rates. Only works if \code{strata = TRUE}. Default palette is \code{"Set1"}. See \code{\link{scale_colour_brewer}}.
+#' @param leg.name name of the stratified hazard rates legend. Only works if \code{strata = TRUE}.
 #' @param lsize size of the smoothing line. Default is 2. See \code{\link{ggplot2}}.
-#' @param psize size of the plotted simulation points. Default is 1. See \code{\link{ggplot2}}.
-#' @param palpha point alpha (e.g. transparency). Default is 0.05. See \code{\link{ggplot2}}.
+#' @param psize size of the plotted simulation points. Default is \code{psize = 1}. See \code{\link{ggplot2}}.
+#' @param palpha point alpha (e.g. transparency). Default is \code{palpha = 0.05}. See \code{\link{ggplot2}}.
 #' @param ... other arguments passed to specific methods
 #' @return a ggplot object
-#' @details Plots either a time variying hazard ratio or the hazard rates for multiple strata. Currently to change the strata legend labels you need to do this manually (see \code{\link{revalue}}) in the simtvc object with the strata component. Also, currently the x-axis tick marks and break labels must be adjusted manually for non-linear functions of time.
+#' @details Plots either a time varying hazard ratio or the hazard rates for multiple strata. Currently to change the strata legend labels you need to do this manually (see \code{\link{revalue}}) in the simtvc object with the strata component. Also, currently the x-axis tick marks and break labels must be adjusted manually for non-linear functions of time.
 #' @examples
 #' # Load Golub & Steunenberg (2007) Data
 #' data("GolubEUPData")

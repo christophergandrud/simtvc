@@ -1,6 +1,6 @@
 \name{coxsimtvc}
 \alias{coxsimtvc}
-\title{Simulate time-varying hazard ratios for coxph fitted model objects}
+\title{Simulate time-varying hazard ratios from coxph fitted model objects}
 \usage{
   coxsimtvc(obj, b, btvc, tfun = "linear", pow = NULL,
     nsim = 1000, from, to, by, ci = "95", strata = FALSE)
@@ -14,15 +14,15 @@
   \item{btvc}{the time interacted variable's name}
 
   \item{nsim}{the number of simulations to run per point in
-  time. Default is nsim = 1000.}
+  time. Default is \code{nsim = 1000}.}
 
   \item{tfun}{function of time that btvc was multiplied by.
   Default is "linear". Can also be "log" (natural log) and
-  "power". If tfun = "power" then the pow argument needs to
-  be specified also.}
+  "power". If \code{tfun = "power"} then the pow argument
+  needs to be specified also.}
 
-  \item{pow}{if tfun = "power", then use pow to specify
-  what power the time interaction was raised to.}
+  \item{pow}{if \code{tfun = "power"}, then use pow to
+  specify what power the time interaction was raised to.}
 
   \item{from}{point in time from when to begin simulating
   coefficient values}
@@ -34,8 +34,9 @@
   values}
 
   \item{ci}{the proportion of middle simulations to keep.
-  The default is "95", i.e. keep the middle 95 percent.
-  Other possibilities include: "90", "99", "all".}
+  The default is \code{ci = "95"}, i.e. keep the middle 95
+  percent. Other possibilities include: \code{"90"},
+  \code{"99"}, \code{"all"}.}
 
   \item{strata}{logical for whether or not the coxph model
   used stratification and you would like to simulate the

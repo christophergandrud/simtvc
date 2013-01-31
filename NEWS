@@ -3,7 +3,7 @@ Added ability to simulate and graph conditional hazard rates from stratified Cox
 
       Version 0.01.1
 
-Added the command tvc which creates creates a time interaction varible that can be used in a coxph model (or any other model with time interactions)
+Added the command tvc which creates creates a time interaction variable that can be used in a coxph model (or any other model with time interactions)
 
       Version 0.01
 

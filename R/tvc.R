@@ -1,13 +1,13 @@
 #' Create a time interaction variable
 #' 
-#' \code{tvc} creates a time interaction varible that can be used in a coxph model (or any other model with time interactions)
+#' \code{tvc} creates a time interaction variable that can be used in a coxph model (or any other model with time interactions)
 #' @param data a data frame
 #' @param b the non-time interacted variable's name
 #' @param tvar the time variable's name
-#' @param tfun function of time that btvc was multiplied by. Default is "linear". Can also be "log" (natural log) and "power". If tfun = "power" then the pow argument needs to be specified also.
-#' @param pow if tfun = "power", then use pow to specify what power to raise the time interaction to.
+#' @param tfun function of time that btvc was multiplied by. Default is \code{tfun = "linear"}. Can also be \code{tfun = "log"} (natural log) and \code{tfun = "power"}. If \code{tfun = "power"} then the pow argument needs to be specified also.
+#' @param pow if \code{tfun = "power"}, then use pow to specify what power to raise the time interaction to.
 #' @return a vector
-#' @details Interacts a variable with a specified function of time. Possible functions of time include 'linear', natural 'log', and exponentiated ('power').
+#' @details Interacts a variable with a specified function of time. Possible functions of time include \code{'linear'}, natural \code{'log'}, and exponentiated (\code{'power'}).
 #' @examples
 #' # Load Golub & Steunenberg (2007) Data
 #' data("GolubEUPData")

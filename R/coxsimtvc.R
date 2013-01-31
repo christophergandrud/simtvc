@@ -1,16 +1,16 @@
-#' Simulate time-varying hazard ratios for coxph fitted model objects
+#' Simulate time-varying hazard ratios from coxph fitted model objects
 #' 
 #' \code{coxsimtvc} simulates a time-varying hazard ratios from coxph fitted model objects using the normal distribution.
 #' @param obj a coxph fitted model object with a time interaction. 
 #' @param b the non-time interacted variable's name
 #' @param btvc the time interacted variable's name
-#' @param nsim the number of simulations to run per point in time. Default is nsim = 1000.
-#' @param tfun function of time that btvc was multiplied by. Default is "linear". Can also be "log" (natural log) and "power". If tfun = "power" then the pow argument needs to be specified also.
-#' @param pow if tfun = "power", then use pow to specify what power the time interaction was raised to.
+#' @param nsim the number of simulations to run per point in time. Default is \code{nsim = 1000}.
+#' @param tfun function of time that btvc was multiplied by. Default is "linear". Can also be "log" (natural log) and "power". If \code{tfun = "power"} then the pow argument needs to be specified also.
+#' @param pow if \code{tfun = "power"}, then use pow to specify what power the time interaction was raised to.
 #' @param from point in time from when to begin simulating coefficient values
 #' @param to point in time to stop simulating coefficient values
 #' @param by time intervals by which to simulate coefficient values
-#' @param ci the proportion of middle simulations to keep. The default is "95", i.e. keep the middle 95 percent. Other possibilities include: "90", "99", "all".
+#' @param ci the proportion of middle simulations to keep. The default is \code{ci = "95"}, i.e. keep the middle 95 percent. Other possibilities include: \code{"90"}, \code{"99"}, \code{"all"}.
 #' @param strata logical for whether or not the coxph model used stratification and you would like to simulate the hazard rates for each strata
 #' @return a simtvc object
 #' @details Simulates time-varying hazard ratios using estimates from a \code{coxph} proportional hazards model. If strata = TRUE then the hazard rate for each strata is calculated assuming that b is set to 1 and all other variables are set to zero. The resulting simulation values can be plotted using \code{ggtvc}. Note: the stratified simulations only incorporate estimation uncertainty for the coefficient, not the baseline hazards.

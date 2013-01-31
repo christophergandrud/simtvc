@@ -16,7 +16,7 @@
 
   \item{xlab}{a label for the plot's x-axis}
 
-  \item{ylab}{a lable of the plot's y-axis}
+  \item{ylab}{a label of the plot's y-axis}
 
   \item{title}{the plot's main title}
 
@@ -34,20 +34,21 @@
   hexadecimal colour A6CEE3.}
 
   \item{spalette}{colour palette for stratified hazard
-  rates. Only works if strata = TRUE. Default palette is
-  "Set1". See \code{\link{scale_colour_brewer}}.}
+  rates. Only works if \code{strata = TRUE}. Default
+  palette is \code{"Set1"}. See
+  \code{\link{scale_colour_brewer}}.}
 
   \item{leg.name}{name of the stratified hazard rates
-  legend. Only works if strata = TRUE.}
+  legend. Only works if \code{strata = TRUE}.}
 
   \item{lsize}{size of the smoothing line. Default is 2.
   See \code{\link{ggplot2}}.}
 
   \item{psize}{size of the plotted simulation points.
-  Default is 1. See \code{\link{ggplot2}}.}
+  Default is \code{psize = 1}. See \code{\link{ggplot2}}.}
 
   \item{palpha}{point alpha (e.g. transparency). Default is
-  0.05. See \code{\link{ggplot2}}.}
+  \code{palpha = 0.05}. See \code{\link{ggplot2}}.}
 
   \item{...}{other arguments passed to specific methods}
 }
@@ -57,10 +58,11 @@
 \description{
   \code{ggtvc} uses ggplot2 to plot the simulated hazard
   ratios from a simtvc class object using ggplot2. Note: A
-  dotted line is created at y = 1, i.e. no effect.
+  dotted line is created at y = 1, i.e. no effect, for
+  time-varying hazard ratio graphs.
 }
 \details{
-  Plots either a time variying hazard ratio or the hazard
+  Plots either a time varying hazard ratio or the hazard
   rates for multiple strata. Currently to change the strata
   legend labels you need to do this manually (see
   \code{\link{revalue}}) in the simtvc object with the
