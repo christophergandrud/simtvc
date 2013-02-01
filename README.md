@@ -25,7 +25,7 @@ The package includes four functions:
 Use the [devtools](https://github.com/hadley/devtools) command `install_github` to install **simtvc** in R. Here is the exact code for installing version 0.02:
 
 ```r
-devtools::install_github("simtvc", "christophergandrud", ref = "v0.02.1")
+devtools::install_github("simtvc", "christophergandrud", ref = "v0.03.1")
 ```
 
 ## Sources
