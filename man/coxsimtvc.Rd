@@ -3,7 +3,7 @@
 \title{Simulate time-varying hazard ratios from coxph fitted model objects}
 \usage{
   coxsimtvc(obj, b, btvc, tfun = "linear", pow = NULL,
-    nsim = 1000, from, to, by, ci = "95", strata = FALSE)
+    nsim = 1000, from, to, by, ci = "95")
 }
 \arguments{
   \item{obj}{a coxph fitted model object with a time
@@ -30,35 +30,40 @@
   \item{to}{point in time to stop simulating coefficient
   values}
 
-  \item{by}{time intervals by which to simulate coefficient
+  \item{by}{time intervals at which to simulate coefficient
   values}
 
   \item{ci}{the proportion of middle simulations to keep.
   The default is \code{ci = "95"}, i.e. keep the middle 95
   percent. Other possibilities include: \code{"90"},
   \code{"99"}, \code{"all"}.}
-
-  \item{strata}{logical for whether or not the coxph model
-  used stratification and you would like to simulate the
-  hazard rates for each strata}
 }
 \value{
   a simtvc object
 }
 \description{
   \code{coxsimtvc} simulates a time-varying hazard ratios
-  from coxph fitted model objects using the normal
-  distribution.
+  from \code{coxph} fitted model objects using the
+  multivariate normal distribution.
 }
 \details{
   Simulates time-varying hazard ratios using estimates from
-  a \code{coxph} proportional hazards model. If strata =
-  TRUE then the hazard rate for each strata is calculated
-  assuming that b is set to 1 and all other variables are
-  set to zero. The resulting simulation values can be
-  plotted using \code{ggtvc}. Note: the stratified
-  simulations only incorporate estimation uncertainty for
-  the coefficient, not the baseline hazards.
+  a \code{coxph} proportional hazards model.
+
+  The function uses the point estimates for a given
+  coefficient \eqn{\hat{\beta}_{x}} and its time
+  interaction \eqn{\hat{\beta}_{xt}} along with the
+  variance matrix (\eqn{\hat{V}(\hat{\beta})}) estimated
+  from a \code{coxph} model. These are used to draw values
+  of \eqn{\beta_{x}} and \eqn{\beta_{xt}} from the
+  multivariate normal distribution \eqn{N(\hat{\beta},\:
+  \hat{V}(\hat{beta}))}.
+
+  Using these simulated values combined coefficients
+  \eqn{\beta_{xc}} for each point in time \eqn{t} are
+  estimated using: \deqn{HR_{xc} = \exp(\beta_{x} +
+  \beta_{xt}(t)}) The resulting simulation values can be
+  plotted using \code{\link{ggtvc}}.
 }
 \examples{
 # Load Golub & Steunenberg (2007) Data
@@ -84,9 +89,14 @@ simM1 <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv",
   Licht, Amanda A. 2011. “Change Comes with Time:
   Substantive Interpretation of Nonproportional Hazards in
   Event History Analysis.” Political Analysis 19: 227–43.
+
+  King, Gary, Michael Tomz, and Jason Wittenberg. 2000.
+  “Making the Most of Statistical Analyses: Improving
+  Interpretation and Presentation.” American Journal of
+  Political Science 44(2): 347–61.
 }
 \seealso{
-  \code{\link{ggtvc}}, \code{\link{survival}}, and
-  \code{\link{coxph}}
+  \code{\link{ggtvc}}, \code{\link{rmultinorm}},
+  \code{\link{survival}}, and \code{\link{coxph}}
 }
 

@@ -18,5 +18,6 @@ License: GPL (>= 2)
 Collate:
     'tvc.R'
     'coxsimtvc.R'
+    'coxsimStrata.R'
     'ggtvc.R'
     'GolubEUPData.R'
