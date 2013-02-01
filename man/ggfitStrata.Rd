@@ -3,7 +3,7 @@
 \title{Graph fitted stratified survival curves}
 \usage{
   ggfitStrata(obj, byStrata = FALSE, xlab = "", ylab = "",
-    lcolour = "#2C7FB8", rcolour = "#2C7FB8")
+    title = "", lcolour = "#2C7FB8", rcolour = "#2C7FB8")
 }
 \arguments{
   \item{obj}{a \code{survfit} object.}
@@ -16,8 +16,10 @@
 
   \item{ylab}{a label of the plot's y-axis}
 
-  \item{lcolour}{line color. Either a single color or a
-  vector of colours. The default it \code{lcolour =
+  \item{title}{plot title.}
+
+  \item{lcolour}{line color. Currently only works if
+  \code{byStrata = TRUE}. The default it \code{lcolour =
   "#2C7FB8"} (a bluish hexadecimal colour)}
 
   \item{rcolour}{confidence bounds ribbon color. Either a

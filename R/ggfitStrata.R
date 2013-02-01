@@ -6,7 +6,8 @@
 #' @param byStrata logical, whether or not you want to include all of the stratified survival curves on one plot or separate them into a grid arranged plot.
 #' @param xlab a label for the plot's x-axis
 #' @param ylab a label of the plot's y-axis
-#' @param lcolour line color. Either a single color or a vector of colours. The default it \code{lcolour = "#2C7FB8"} (a bluish hexadecimal colour)
+#' @param title plot title.
+#' @param lcolour line color. Currently only works if \code{byStrata = TRUE}. The default it \code{lcolour = "#2C7FB8"} (a bluish hexadecimal colour)
 #' @param rcolour confidence bounds ribbon color. Either a single color or a vector of colours. The default it \code{lcolour = "#2C7FB8"} (a bluish hexadecimal colour)
 #'
 #' @description This function largely improves \code{\link{survfit}}. It plots the curves using \link{ggplot2} rather than base R graphics. One major advantage is the ability to split the survival curves into multiple plots in a plot grid. This makes it easier to examine many strata at once. Otherwise they can be very bunched up.
@@ -16,12 +17,6 @@
 
 ggfitStrata <- function(obj, byStrata = FALSE, xlab = "", ylab = "", title = "", lcolour = "#2C7FB8", rcolour = "#2C7FB8")
 {
-  require(ggplot2)
-  require(gridExtra)
-  
-  lcolour <- lcolour
-  rcolour <- rcolour
-
   sFit <- obj
   time <- sFit$time
   lower <- sFit$lower
@@ -40,7 +35,7 @@ ggfitStrata <- function(obj, byStrata = FALSE, xlab = "", ylab = "", title = "",
                          fill = Strata)) +
       geom_line() +
       geom_ribbon(aes(ymin = Lower, ymax = Upper), alpha = I(0.1)) +
-      xlab(xlab) + ylab(ylab) +
+      xlab(xlab) + ylab(ylab) + ggtitle(title) +
       theme_bw()
       
   } else if (byStrata == TRUE){
@@ -58,10 +53,9 @@ ggfitStrata <- function(obj, byStrata = FALSE, xlab = "", ylab = "", title = "",
                                                 alpha = I(0.1),
                                                 colour = NA,
                                                 fill = rcolour) +
-                                   xlab(xlab) + ylab(ylab) +
-                                   ggtitle(paste(i, "\n")) +
+                                   xlab("") + ylab("") + ggtitle(paste(i, "\n")) +
                                    theme_bw()
     }
-  Grid <- do.call(grid.arrange, p)
+  Grid <- do.call(grid.arrange, c(p, main = title, sub = xlab, left = ylab))
   }
 }
