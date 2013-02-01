@@ -1,3 +1,19 @@
+#' Graph fitted stratified survival curves
+#'
+#' \code{ggfitStrata} graphs fitted survival curves created with \code{\link{survfit}} using \link{ggplot2}.
+#'
+#' @param obj a \code{survfit} object.
+#' @param byStrata logical, whether or not you want to include all of the stratified survival curves on one plot or separate them into a grid arranged plot.
+#' @param xlab a label for the plot's x-axis
+#' @param ylab a label of the plot's y-axis
+#' @param lcolour line color. Either a single color or a vector of colours. The default it \code{lcolour = "#2C7FB8"} (a bluish hexadecimal colour)
+#' @param rcolour confidence bounds ribbon color. Either a single color or a vector of colours. The default it \code{lcolour = "#2C7FB8"} (a bluish hexadecimal colour)
+#'
+#' @description This function largely improves \code{\link{survfit}}. It plots the curves using \link{ggplot2} rather than base R graphics. One major advantage is the ability to split the survival curves into multiple plots in a plot grid. This makes it easier to examine many strata at once. Otherwise they can be very bunched up.
+#' @seealso \code{\link{survfit}}, \code{\link{ggplot2}} and \code{\link{strata}} 
+#' @import ggplot2 gridExtra
+#' @export 
+
 ggfitStrata <- function(obj, byStrata = FALSE, xlab = "", ylab = "", lcolour = "#2C7FB8", rcolour = "#2C7FB8")
 {
   require(ggplot2)
