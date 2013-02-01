@@ -3,7 +3,7 @@ simtvc
 
 ### Christopher Gandrud
 
-### Version 0.03
+### Version 0.03.1
 
 ---
 
