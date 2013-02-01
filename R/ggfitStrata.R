@@ -14,7 +14,7 @@
 #' @import ggplot2 gridExtra
 #' @export 
 
-ggfitStrata <- function(obj, byStrata = FALSE, xlab = "", ylab = "", lcolour = "#2C7FB8", rcolour = "#2C7FB8")
+ggfitStrata <- function(obj, byStrata = FALSE, xlab = "", ylab = "", title = "", lcolour = "#2C7FB8", rcolour = "#2C7FB8")
 {
   require(ggplot2)
   require(gridExtra)
@@ -63,6 +63,5 @@ ggfitStrata <- function(obj, byStrata = FALSE, xlab = "", ylab = "", lcolour = "
                                    theme_bw()
     }
   Grid <- do.call(grid.arrange, p)
-  Grid
   }
 }

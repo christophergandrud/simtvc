@@ -1,19 +1,21 @@
 Package: simtvc
 Title: Tools for simulating and graphing time-varying coefficients.
 Description: The package simulates time-varying coefficients from Cox Proportional Hazard models and plots the results as hazard ratios. It also simulates and plots stratified hazard rates with non-proportional hazard ratios.
-Version: 0.02.1
+Version: 0.03
 Date: 2013-01-21
 Author: Christopher Gandrud
 Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>
-URL: https://github.com/christophergandrud/SimTVC
-BugReports: https://github.com/christophergandrud/SimTVC/issues
+URL: <https://github.com/christophergandrud/SimTVC>
+BugReports: <https://github.com/christophergandrud/SimTVC/issues>
 Depends:
     R (>= 2.15.2)
 Imports:
     MSBVAR,
     reshape2,
     plyr,
-    ggplot2
+    ggplot2,
+    survival,
+    gridExtra
 License: GPL (>= 2)
 Collate:
     'tvc.R'
