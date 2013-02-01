@@ -31,10 +31,10 @@ ggfitStrata <- function(obj, byStrata = FALSE, xlab = "", ylab = "", lcolour = "
     TempData$StrataC <- gsub("=", "", TempData$Strata)
     TempData$StrataC <- gsub(" ", "", TempData$StrataC)
     eachStrata <- unique(TempData$StrataC)
-    
-    plots <- lapply(eachStrata, function(i, lcolour = lcolour, rcolour = rcolour) { 
+    p <- list()
+    for (i in eachStrata){
       SubData <- subset(TempData, StrataC == i)
-      assign(paste0("Plot." i), ggplot(data = SubData, aes(x = Time, 
+      p[[i]] <- ggplot(data = SubData, aes(x = Time, 
                                                             y = Survival)) +
                                    geom_line(colour = lcolour) +
                                    geom_ribbon(aes(ymin = Lower, 
@@ -45,9 +45,8 @@ ggfitStrata <- function(obj, byStrata = FALSE, xlab = "", ylab = "", lcolour = "
                                    xlab(xlab) + ylab(ylab) +
                                    ggtitle(paste(i, "\n")) +
                                    theme_bw()
-                                   )   
-    })
-    plots
-  #do.call(grid.arrange, plots)
+    }
+  Grid <- do.call(grid.arrange, p)
+  Grid
   }
 }
