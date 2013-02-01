@@ -34,21 +34,22 @@
 
 <h3>Christopher Gandrud</h3>
 
-<h3>Version 0.02.1</h3>
+<h3>Version 0.03.1</h3>
 
 <hr><p>An R package for simulating and graphing non-proportional hazards ratios from <a href="http://en.wikipedia.org/wiki/Proportional_hazards_models">Cox Proportional Hazard (PH) models</a>. It can also simulate and graph stratified non-proportional hazard rates from Cox models.</p>
 
-<p>The package includes three functions:</p>
+<p>The package includes four functions:</p>
 
 <ul>
 <li><p><code>tvc</code>: a function for creating time interactions. Currently supports <code>'linear'</code>, natural <code>'log'</code>, and exponentiation (<code>'power'</code>).</p></li>
 <li><p><code>coxsimtvc</code>: a function for simulating time-varying hazard ratios from a Cox PH model estimated using <code>coxph</code> from the <a href="http://cran.r-project.org/web/packages/survival/index.html">survival</a> package. For more information see this <a href="http://christophergandrud.blogspot.kr/2012/10/graphing-non-proportional-hazards-in-r.html">blog post</a>. If <code>strata = FALSE</code> the function will also calculated time-varying hazard ratios for multiple strata estimated from a stratified Cox PH model.</p></li>
 <li><p><code>ggtvc</code>: uses <a href="http://ggplot2.org/">ggplot2</a> to graph the simulated hazard ratios or stratified hazard rates.</p></li>
+<li><p><code>ggfitStrata</code>: a function to plot fitted stratified survival curves estimated from <code>survfit</code> using <strong>ggplot2</strong>. This function builds on the <strong>survival</strong> package's <code>plot.survfit</code> command. One major advantage is the ability to split the survival curves into multiple plots and arrange them in a grid. This makes it easier to examine many strata at once. Otherwise they can be very bunched up.</p></li>
 </ul><h2>Installation</h2>
 
 <p>Use the <a href="https://github.com/hadley/devtools">devtools</a> command <code>install_github</code> to install <strong>simtvc</strong> in R. Here is the exact code for installing version 0.02:</p>
 
-<div class="highlight"><pre>devtools<span class="p">::</span>install_github<span class="p">(</span><span class="s">"simtvc"</span><span class="p">,</span> <span class="s">"christophergandrud"</span><span class="p">,</span> ref <span class="o">=</span> <span class="s">"v0.02.1"</span><span class="p">)</span>
+<div class="highlight"><pre>devtools<span class="p">::</span>install_github<span class="p">(</span><span class="s">"simtvc"</span><span class="p">,</span> <span class="s">"christophergandrud"</span><span class="p">,</span> ref <span class="o">=</span> <span class="s">"v0.03.1"</span><span class="p">)</span>
 </pre></div>
 
 <h2>Sources</h2>
