@@ -10,7 +10,7 @@
 #' @param lcolour line color. Currently only works if \code{byStrata = TRUE}. The default it \code{lcolour = "#2C7FB8"} (a bluish hexadecimal colour)
 #' @param rcolour confidence bounds ribbon color. Either a single color or a vector of colours. The default it \code{lcolour = "#2C7FB8"} (a bluish hexadecimal colour)
 #'
-#' @description This function largely improves \code{\link{survfit}}. It plots the curves using \link{ggplot2} rather than base R graphics. One major advantage is the ability to split the survival curves into multiple plots in a plot grid. This makes it easier to examine many strata at once. Otherwise they can be very bunched up.
+#' @description This function largely improves \code{\link{plot.survfit}}. It plots the curves using \link{ggplot2} rather than base R graphics. One major advantage is the ability to split the survival curves into multiple plots and arrange them in a grid. This makes it easier to examine many strata at once. Otherwise they can be very bunched up.
 #' @seealso \code{\link{survfit}}, \code{\link{ggplot2}} and \code{\link{strata}} 
 #' @import ggplot2 gridExtra
 #' @export 

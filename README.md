@@ -3,20 +3,22 @@ simtvc
 
 ### Christopher Gandrud
 
-### Version 0.02.1
+### Version 0.03
 
 ---
 
 
 An R package for simulating and graphing non-proportional hazards ratios from [Cox Proportional Hazard (PH) models](http://en.wikipedia.org/wiki/Proportional_hazards_models). It can also simulate and graph stratified non-proportional hazard rates from Cox models.
 
-The package includes three functions:
+The package includes four functions:
 
 - `tvc`: a function for creating time interactions. Currently supports `'linear'`, natural `'log'`, and exponentiation (`'power'`).
 
 - `coxsimtvc`: a function for simulating time-varying hazard ratios from a Cox PH model estimated using `coxph` from the [survival](http://cran.r-project.org/web/packages/survival/index.html) package. For more information see this [blog post](http://christophergandrud.blogspot.kr/2012/10/graphing-non-proportional-hazards-in-r.html). If `strata = FALSE` the function will also calculated time-varying hazard ratios for multiple strata estimated from a stratified Cox PH model.
 
 - `ggtvc`: uses [ggplot2](http://ggplot2.org/) to graph the simulated hazard ratios or stratified hazard rates.
+
+- `ggfitStrata`: a function to plot fitted stratified survival curves estimated from `survfit` using **ggplot2**. This function builds on the **survival** package's `plot.survfit` command. One major advantage is the ability to split the survival curves into multiple plots and arrange them in a grid. This makes it easier to examine many strata at once. Otherwise they can be very bunched up.
 
 ## Installation
 
