@@ -61,7 +61,7 @@ ggfitStrata <- function(obj, byStrata = FALSE, xlab = "", ylab = "", title = "",
     for (i in eachStrata){
       SubData <- subset(TempData, StrataC == i)
       p[[i]] <- ggplot(data = SubData, aes(x = Time, 
-                                                            y = Survival)) +
+                                           y = Survival)) +
                                    geom_line(colour = lcolour) +
                                    geom_ribbon(aes(ymin = Lower, 
                                                 ymax = Upper), 
