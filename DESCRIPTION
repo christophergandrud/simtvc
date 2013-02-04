@@ -5,8 +5,8 @@ Version: 0.03.1
 Date: 2013-01-21
 Author: Christopher Gandrud
 Maintainer: Christopher Gandrud <christopher.gandrud@gmail.com>
-URL: <https://github.com/christophergandrud/SimTVC>
-BugReports: <https://github.com/christophergandrud/SimTVC/issues>
+URL: http://christophergandrud.github.com/simtvc/
+BugReports: https://github.com/christophergandrud/SimTVC/issues
 Depends:
     R (>= 2.15.2)
 Imports:
