@@ -2,7 +2,7 @@
 \alias{ggtvc}
 \title{Create a plot of simulated time-varying hazard ratios or stratified time-varying hazard rates from a simtvc class object using ggplot2}
 \usage{
-  ggtvc(obj, firstDiff = FALSE, strata = FALSE,
+  ggtvc(obj, qi = "Relative Hazard", strata = FALSE,
     xlab = NULL, ylab = NULL, title = NULL, xbreaks = NULL,
     xlabels = NULL, smoother = "auto", colour = "#A6CEE3",
     spalette = "Set1", leg.name = "", lsize = 2, psize = 1,
@@ -10,6 +10,12 @@
 }
 \arguments{
   \item{obj}{a simtvc class object}
+
+  \item{qi}{character string indicating what quantity of
+  interest you would like to calculate. Can be
+  \code{'Relative Hazard'}, \code{'First Difference'}, or
+  \code{'Hazard Ratio'}. Default is \code{qi = 'Relative
+  Hazard'}.}
 
   \item{strata}{logical whether or not you would like to
   plot the hazard rate for the separate strata}

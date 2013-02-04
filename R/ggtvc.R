@@ -3,6 +3,7 @@
 #' \code{ggtvc} uses ggplot2 to plot the simulated hazard ratios from a simtvc class object using ggplot2. 
 #' Note: A dotted line is created at y = 1, i.e. no effect, for time-varying hazard ratio graphs.
 #' @param obj a simtvc class object
+#' @param qi character string indicating what quantity of interest you would like to calculate. Can be \code{'Relative Hazard'}, \code{'First Difference'}, or \code{'Hazard Ratio'}. Default is \code{qi = 'Relative Hazard'}. 
 #' @param strata logical whether or not you would like to plot the hazard rate for the separate strata
 #' @param xlab a label for the plot's x-axis
 #' @param ylab a label of the plot's y-axis
@@ -45,41 +46,63 @@
 #' @import ggplot2
 #' @export
 
-ggtvc <- function(obj, firstDiff = FALSE, strata = FALSE, xlab = NULL, ylab = NULL, title = NULL, xbreaks = NULL, xlabels = NULL, smoother = "auto", colour = "#A6CEE3", spalette = "Set1", leg.name = "", lsize = 2, psize = 1, palpha = 0.1, ...)
+ggtvc <- function(obj, qi = "Relative Hazard", strata = FALSE, xlab = NULL, ylab = NULL, title = NULL, xbreaks = NULL, xlabels = NULL, smoother = "auto", colour = "#A6CEE3", spalette = "Set1", leg.name = "", lsize = 2, psize = 1, palpha = 0.1, ...)
 {
-  if (!inherits(obj, "simtvc")) 
+  if (!inherits(obj, "simtvc")){
     stop("must be a simtvc object")
-
-  
-  if (strata == TRUE){
-    colour <- NULL
-    objdf <- data.frame(obj$time, obj$HRate, obj$strata)
-    names(objdf) <- c("Time", "HRate", "Strata")
-
-    ggplot(objdf, aes(Time, HRate, colour = factor(Strata))) +
-      geom_point(alpha = I(palpha), size = psize) +
-      geom_smooth(method = smoother, size = lsize, se = FALSE) +
-      scale_y_continuous()+
-      scale_x_continuous() +
-      xlab(xlab) + ylab(ylab) +
-      scale_colour_brewer(palette = spalette, name = leg.name) +
-      ggtitle(title) +
-      guides(colour = guide_legend(override.aes = list(alpha = 1))) +
-      theme_bw(base_size = 15)
-
-  } else if (strata == FALSE){
-    spalette <- NULL
-    objdf <- data.frame(obj$time, obj$HR)
-    names(objdf) <- c("Time", "HR")
-    ggplot(objdf, aes(Time, HR)) +
-      geom_point(shape = 21, alpha = I(palpha), size = psize, colour = colour) +
-      geom_smooth(method = smoother, size = lsize, se = FALSE) +
-      geom_hline(aes(yintercept = 1), linetype = "dotted") +
-      scale_y_continuous()+
-      scale_x_continuous() +
-      xlab(xlab) + ylab(ylab) +
-      ggtitle(title) +
-      guides(colour = guide_legend(override.aes = list(alpha = 1))) +  
-      theme_bw(base_size = 15)
   }
+  if (qi == "First Difference" & strata == TRUE){
+    stop("firstDiff and strata cannot both be TRUE")
+  }
+  
+  if (qi == "Relative Hazard"){
+    if (strata == TRUE){
+      colour <- NULL
+      objdf <- data.frame(obj$time, obj$HRate, obj$strata)
+      names(objdf) <- c("Time", "HRate", "Strata")
+
+      ggplot(objdf, aes(Time, HRate, colour = factor(Strata))) +
+        geom_point(alpha = I(palpha), size = psize) +
+        geom_smooth(method = smoother, size = lsize, se = FALSE) +
+        scale_y_continuous()+
+        scale_x_continuous() +
+        xlab(xlab) + ylab(ylab) +
+        scale_colour_brewer(palette = spalette, name = leg.name) +
+        ggtitle(title) +
+        guides(colour = guide_legend(override.aes = list(alpha = 1))) +
+        theme_bw(base_size = 15)
+
+    } else if (strata == FALSE){
+      spalette <- NULL
+      objdf <- data.frame(obj$time, obj$HR)
+      names(objdf) <- c("Time", "HR")
+      ggplot(objdf, aes(Time, HR)) +
+        geom_point(shape = 21, alpha = I(palpha), size = psize, colour = colour) +
+        geom_smooth(method = smoother, size = lsize, se = FALSE) +
+        geom_hline(aes(yintercept = 1), linetype = "dotted") +
+        scale_y_continuous()+
+        scale_x_continuous() +
+        xlab(xlab) + ylab(ylab) +
+        ggtitle(title) +
+        guides(colour = guide_legend(override.aes = list(alpha = 1))) +
+        theme_bw(base_size = 15)
+      }
+  }
+
+  if (qi == "First Difference"){
+      spalette <- NULL
+      objdf <- data.frame(obj$time, obj$FirstDiff, obj$Comparison)
+      names(objdf) <- c("Time", "FirstDiff", "Comparison")
+      ggplot(objdf, aes(Time, FirstDiff, group = Comparison)) +
+        geom_point(shape = 21, alpha = I(palpha), size = psize, colour = colour) +
+        geom_smooth(method = smoother, size = lsize, se = FALSE) +
+        geom_hline(aes(yintercept = 1), linetype = "dotted") +
+        scale_y_continuous()+
+        scale_x_continuous() +
+        xlab(xlab) + ylab(ylab) +
+        ggtitle(title) +
+        guides(colour = guide_legend(override.aes = list(alpha = 1))) +
+        theme_bw(base_size = 15)
+      }
+
 }
