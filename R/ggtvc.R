@@ -45,10 +45,11 @@
 #' @import ggplot2
 #' @export
 
-ggtvc <- function(obj, strata = FALSE, xlab = NULL, ylab = NULL, title = NULL, xbreaks = NULL, xlabels = NULL, smoother = "auto", colour = "#A6CEE3", spalette = "Set1", leg.name = "", lsize = 2, psize = 1, palpha = 0.1, ...)
+ggtvc <- function(obj, firstDiff = FALSE, strata = FALSE, xlab = NULL, ylab = NULL, title = NULL, xbreaks = NULL, xlabels = NULL, smoother = "auto", colour = "#A6CEE3", spalette = "Set1", leg.name = "", lsize = 2, psize = 1, palpha = 0.1, ...)
 {
   if (!inherits(obj, "simtvc")) 
     stop("must be a simtvc object")
+
   
   if (strata == TRUE){
     colour <- NULL

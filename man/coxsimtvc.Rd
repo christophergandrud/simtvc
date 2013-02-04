@@ -1,17 +1,37 @@
 \name{coxsimtvc}
 \alias{coxsimtvc}
-\title{Simulate time-varying hazard ratios from coxph fitted model objects}
+\title{Simulate time-varying relative hazards from coxph fitted model objects}
 \usage{
-  coxsimtvc(obj, b, btvc, tfun = "linear", pow = NULL,
-    nsim = 1000, from, to, by, ci = "95", strata = FALSE)
+  coxsimtvc(obj, b, btvc, qi = "Relative Hazard", Xj = 1,
+    Xl = 0, tfun = "linear", pow = NULL, nsim = 1000, from,
+    to, by, ci = "95", strata = FALSE)
 }
 \arguments{
   \item{obj}{a coxph fitted model object with a time
   interaction.}
 
-  \item{b}{the non-time interacted variable's name}
+  \item{b}{the non-time interacted variable's name.}
 
-  \item{btvc}{the time interacted variable's name}
+  \item{btvc}{the time interacted variable's name.}
+
+  \item{qi}{character string indicating what quantity of
+  interest you would like to calculate. Can be
+  \code{'Relative Hazard'}, \code{'First Difference'}, or
+  \code{'Hazard Ratio'}. Default is \code{qi = 'Relative
+  Hazard'}. If \code{qi = 'First Difference'} or \code{qi =
+  'Hazard Ratio'} then you can set \code{Xj} and \code{Xl}.
+  If \code{qi = 'First Difference'} then \code{strata} must
+  be \code{FALSE}.}
+
+  \item{Xj}{numeric vector of fitted values for Xj. Must be
+  the same length as Xl. Default is \code{Xj = 1} Only
+  applies if \code{qi = 'First Difference'} or \code{qi =
+  'Hazard Ratio'}.}
+
+  \item{Xl}{numeric vector of fitted values for Xl. Must be
+  the same length as Xj. Default is \code{Xl = 0}. Only
+  applies if \code{qi = 'First Difference'} or \code{qi =
+  'Hazard Ratio'}.}
 
   \item{nsim}{the number of simulations to run per point in
   time. Default is \code{nsim = 1000}.}
@@ -46,8 +66,8 @@
   a simtvc object
 }
 \description{
-  \code{coxsimtvc} simulates a time-varying hazard ratios
-  from coxph fitted model objects using the normal
+  \code{coxsimtvc} simulates a time-varying relative
+  hazards from coxph fitted model objects using the normal
   distribution.
 }
 \details{
@@ -82,17 +102,37 @@ data("GolubEUPData")
 library(survival)
 
 # Create natural log time interactions
-GolubEUPData$Lqmv <- tvc(GolubEUPData, b = "qmv", tvar = "end", tfun = "log")
+Golubtvc <- function(x){
+  assign(paste0("l", x), tvc(GolubEUPData, b = x, tvar = "end", tfun = "log"))
+}
+
+GolubEUPData$Lcoop <-Golubtvc("coop")
+GolubEUPData$Lqmv <- Golubtvc("qmv")
+GolubEUPData$Lbacklog <- Golubtvc("backlog")
+GolubEUPData$Lcodec <- Golubtvc("codec")
+GolubEUPData$Lqmvpostsea <- Golubtvc("qmvpostsea")
+GolubEUPData$Lthatcher <- Golubtvc("thatcher")
 
 # Run Cox PH Model
-M1 <- coxph(Surv(begin, end, event) ~  qmv + Lqmv,
-           data = GolubEUPData,
-           ties = "efron")
+M1 <- coxph(Surv(begin, end, event) ~
+            qmv + qmvpostsea + qmvpostteu +
+            coop + codec + eu9 + eu10 + eu12 +
+            eu15 + thatcher + agenda + backlog +
+            Lqmv + Lqmvpostsea + Lcoop + Lcodec +
+            Lthatcher + Lbacklog,
+         data = GolubEUPData,
+         ties = "efron")
 
-# Create simtvc object
-simM1 <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv",
-                 tfun = "log", from = 80, to = 2000,
-                 by = 15, ci = "99")
+ # Create simtvc object for Relative Hazard
+ Sim1 <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv",
+                    tfun = "log", from = 80, to = 2000,
+                    by = 15, ci = "99")
+
+# Create simtvc object for First Difference
+Sim2 <- coxsimtvc(obj = M1, b = "backlog", btvc = "Lbacklog",
+                  qi = "First Difference", Xj = c(191, 229), Xl = c(169, 202),
+                  tfun = "log", from = 80, to = 2000,
+                  by = 15, ci = "99")
 }
 \references{
   Licht, Amanda A. 2011. “Change Comes with Time:

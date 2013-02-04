@@ -2,9 +2,9 @@
 \alias{ggtvc}
 \title{Create a plot of simulated time-varying hazard ratios or stratified time-varying hazard rates from a simtvc class object using ggplot2}
 \usage{
-  ggtvc(obj, strata = FALSE, xlab = NULL, ylab = NULL,
-    title = NULL, xbreaks = NULL, xlabels = NULL,
-    smoother = "auto", colour = "#A6CEE3",
+  ggtvc(obj, firstDiff = FALSE, strata = FALSE,
+    xlab = NULL, ylab = NULL, title = NULL, xbreaks = NULL,
+    xlabels = NULL, smoother = "auto", colour = "#A6CEE3",
     spalette = "Set1", leg.name = "", lsize = 2, psize = 1,
     palpha = 0.1, ...)
 }

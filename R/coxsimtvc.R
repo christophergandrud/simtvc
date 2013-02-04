@@ -1,9 +1,12 @@
-#' Simulate time-varying hazard ratios from coxph fitted model objects
+#' Simulate time-varying relative hazards from coxph fitted model objects
 #' 
-#' \code{coxsimtvc} simulates a time-varying hazard ratios from coxph fitted model objects using the normal distribution.
+#' \code{coxsimtvc} simulates a time-varying relative hazards from coxph fitted model objects using the normal distribution.
 #' @param obj a coxph fitted model object with a time interaction. 
-#' @param b the non-time interacted variable's name
-#' @param btvc the time interacted variable's name
+#' @param b the non-time interacted variable's name.
+#' @param btvc the time interacted variable's name.
+#' @param qi character string indicating what quantity of interest you would like to calculate. Can be \code{'Relative Hazard'}, \code{'First Difference'}, or \code{'Hazard Ratio'}. Default is \code{qi = 'Relative Hazard'}. If \code{qi = 'First Difference'} or \code{qi = 'Hazard Ratio'} then you can set \code{Xj} and \code{Xl}. If \code{qi = 'First Difference'} then \code{strata} must be \code{FALSE}.
+#' @param Xj numeric vector of fitted values for Xj. Must be the same length as Xl. Default is \code{Xj = 1} Only applies if \code{qi = 'First Difference'} or \code{qi = 'Hazard Ratio'}.
+#' @param Xl numeric vector of fitted values for Xl. Must be the same length as Xj. Default is \code{Xl = 0}. Only applies if \code{qi = 'First Difference'} or \code{qi = 'Hazard Ratio'}.
 #' @param nsim the number of simulations to run per point in time. Default is \code{nsim = 1000}.
 #' @param tfun function of time that btvc was multiplied by. Default is "linear". Can also be "log" (natural log) and "power". If \code{tfun = "power"} then the pow argument needs to be specified also.
 #' @param pow if \code{tfun = "power"}, then use pow to specify what power the time interaction was raised to.
@@ -30,17 +33,38 @@
 #' library(survival)
 #' 
 #' # Create natural log time interactions
-#' GolubEUPData$Lqmv <- tvc(GolubEUPData, b = "qmv", tvar = "end", tfun = "log")
+#' Golubtvc <- function(x){
+#'   assign(paste0("l", x), tvc(GolubEUPData, b = x, tvar = "end", tfun = "log"))
+#' }
+#' 
+#' GolubEUPData$Lcoop <-Golubtvc("coop")
+#' GolubEUPData$Lqmv <- Golubtvc("qmv")
+#' GolubEUPData$Lbacklog <- Golubtvc("backlog")
+#' GolubEUPData$Lcodec <- Golubtvc("codec")
+#' GolubEUPData$Lqmvpostsea <- Golubtvc("qmvpostsea")
+#' GolubEUPData$Lthatcher <- Golubtvc("thatcher") 
 #' 
 #' # Run Cox PH Model
-#' M1 <- coxph(Surv(begin, end, event) ~  qmv + Lqmv, 
-#'            data = GolubEUPData,
-#'            ties = "efron")
+#' M1 <- coxph(Surv(begin, end, event) ~ 
+#'             qmv + qmvpostsea + qmvpostteu + 
+#'             coop + codec + eu9 + eu10 + eu12 +
+#'             eu15 + thatcher + agenda + backlog +
+#'             Lqmv + Lqmvpostsea + Lcoop + Lcodec +
+#'             Lthatcher + Lbacklog, 
+#'          data = GolubEUPData,
+#'          ties = "efron")
+#'          
+#'  # Create simtvc object for Relative Hazard
+#'  Sim1 <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv",
+#'                     tfun = "log", from = 80, to = 2000, 
+#'                     by = 15, ci = "99")
+#'                     
+#' # Create simtvc object for First Difference  
+#' Sim2 <- coxsimtvc(obj = M1, b = "backlog", btvc = "Lbacklog",
+#'                   qi = "First Difference", Xj = c(191, 229), Xl = c(169, 202),
+#'                   tfun = "log", from = 80, to = 2000, 
+#'                   by = 15, ci = "99")
 #'
-#' # Create simtvc object
-#' simM1 <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv", 
-#'                  tfun = "log", from = 80, to = 2000, 
-#'                  by = 15, ci = "99")
 #' @seealso \code{\link{ggtvc}}, \code{\link{rmultinorm}}, \code{\link{survival}}, \code{\link{strata}}, and \code{\link{coxph}}
 #' @import MSBVAR plyr reshape2 survival
 #' @export
@@ -48,8 +72,12 @@
 #'
 #' King, Gary, Michael Tomz, and Jason Wittenberg. 2000. “Making the Most of Statistical Analyses: Improving Interpretation and Presentation.” American Journal of Political Science 44(2): 347–61.
 
-coxsimtvc <- function(obj, b, btvc, tfun = "linear", pow = NULL, nsim = 1000, from, to, by, ci = "95", strata = FALSE)
+coxsimtvc <- function(obj, b, btvc, qi = "Relative Hazard", Xj = 1, Xl = 0, tfun = "linear", pow = NULL, nsim = 1000, from, to, by, ci = "95", strata = FALSE)
 {  
+  if (qi == "First Difference" & strata == TRUE){
+    stop("firstDiff and strata cannot both be TRUE")
+  }
+
   Coef <- matrix(obj$coefficients)
   VC <- vcov(obj)
     
@@ -83,8 +111,33 @@ coxsimtvc <- function(obj, b, btvc, tfun = "linear", pow = NULL, nsim = 1000, fr
   TVSim <- merge(Drawn, TVSim, by = "ID")
 
   TVSim$CombCoef <- TVSim[[2]] + TVSim$TVC
-  TVSim$HR <- exp(TVSim$CombCoef)
-  
+
+  if (qi == "Relative Hazard"){
+      TVSim$HR <- exp(TVSim$CombCoef)
+  } 
+  else if (qi == "First Difference"){
+    if (length(Xj) != length(Xl)){
+      stop("Xj and Xl must be the same length.")
+    } 
+    else {
+      TVSim$HR <- exp(TVSim$CombCoef)
+      Xs <- data.frame(Xj, Xl)
+      Xs$Comparison <- paste(Xs[, 1], "vs.", Xs[, 2])
+      TVSim <- merge(TVSim, Xs)
+      TVSim$FirstDiff <- (exp((TVSim$Xj - TVSim$Xl) * TVSim$CombCoef) - 1) * 100
+    }
+  } else if (qi == "Hazard Ratio"){
+    if (length(Xj) != length(Xl)){
+      stop("Xj and Xl must be the same length.")
+    } 
+    else {
+      Xs <- data.frame(Xj, Xl)
+      Xs$Comparison <- paste(Xs[, 1], "vs.", Xs[, 2])
+      TVSim <- merge(TVSim, Xs)
+      TVSim$HR <- exp((TVSim$Xj - TVSim$Xl) * TVSim$CombCoef)
+    }
+  }
+
   if (strata == TRUE){
     bfit <- basehaz(obj)
     TVSim <- merge(bfit, TVSim, by = "time")
