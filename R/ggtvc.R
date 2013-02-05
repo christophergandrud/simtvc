@@ -5,13 +5,15 @@
 #' @param obj a simtvc class object
 #' @param qi character string indicating what quantity of interest you would like to calculate. Can be \code{'Relative Hazard'}, \code{'First Difference'}, or \code{'Hazard Ratio'}. Default is \code{qi = 'Relative Hazard'}. 
 #' @param strata logical whether or not you would like to plot the hazard rate for the separate strata
+#' @param from numeric time to start the plot from.
+#' @param to numeric time to plot to.
 #' @param xlab a label for the plot's x-axis
 #' @param ylab a label of the plot's y-axis
 #' @param title the plot's main title
 #' @param xbreaks breaks for x axis tick marks. These will be on the scale you used for the transformed function of time.
 #' @param xlabels labels for the x axis tick marks. These should be on the real time scale. 
 #' @param smoother what type of smoothing line to use to summarize the plotted coefficient
-#' @param colour colour of the simulated points. Default is hexadecimal colour A6CEE3.
+#' @param colour character string colour of the simulated points for relative hazards. Default is hexadecimal colour A6CEE3. Works if \code{strata = FALSE}.
 #' @param spalette colour palette for stratified hazard rates. Only works if \code{strata = TRUE}. Default palette is \code{"Set1"}. See \code{\link{scale_colour_brewer}}.
 #' @param leg.name name of the stratified hazard rates legend. Only works if \code{strata = TRUE}.
 #' @param lsize size of the smoothing line. Default is 2. See \code{\link{ggplot2}}.
@@ -46,7 +48,7 @@
 #' @import ggplot2
 #' @export
 
-ggtvc <- function(obj, qi = "Relative Hazard", strata = FALSE, xlab = NULL, ylab = NULL, title = NULL, xbreaks = NULL, xlabels = NULL, smoother = "auto", colour = "#A6CEE3", spalette = "Set1", leg.name = "", lsize = 2, psize = 1, palpha = 0.1, ...)
+ggtvc <- function(obj, qi = "Relative Hazard", strata = FALSE, from = NULL, to = NULL, xlab = NULL, ylab = NULL, title = NULL, xbreaks = NULL, xlabels = NULL, smoother = "auto", colour = "#A6CEE3", spalette = "Set1", leg.name = "", lsize = 2, psize = 1, palpha = 0.1, ...)
 {
   if (!inherits(obj, "simtvc")){
     stop("must be a simtvc object")
@@ -55,13 +57,37 @@ ggtvc <- function(obj, qi = "Relative Hazard", strata = FALSE, xlab = NULL, ylab
     stop("firstDiff and strata cannot both be TRUE")
   }
 
+  if (qi == "Hazard Ratio" & strata == TRUE){
+    colour <- NULL
+    objdf <- data.frame(obj$time, obj$HRate, obj$strata, obj$Comparison)
+    names(objdf) <- c("Time", "HRate", "Strata", "Comparision")
+  } else if (qi == "Hazard Ratio" & strata == FALSE){
+      objdf <- data.frame(obj$time, obj$HR, obj$Comparison)
+      names(objdf) <- c("Time", "HR", "Comparison")
+  } else if (qi == "Relative Hazard" & strata == TRUE){
+      colour <- NULL
+      objdf <- data.frame(obj$time, obj$HRate, obj$strata)
+      names(objdf) <- c("Time", "HRate", "Strata")
+  } else if (qi == "Relative Hazard" & strata == FALSE){
+      spalette <- NULL
+      objdf <- data.frame(obj$time, obj$HR)
+      names(objdf) <- c("Time", "HR")
+  } else if (qi == "First Difference"){
+      spalette <- NULL
+      objdf <- data.frame(obj$time, obj$FirstDiff, obj$Comparison)
+      names(objdf) <- c("Time", "FirstDiff", "Comparison")
+  }
+  if (!is.null(from)){
+    objdf <- subset(objdf, Time >= from)
+  }
+  if (!is.null(to)){
+    objdf <- subset(objdf, Time <= to)
+  }
+
   if (qi == "Hazard Ratio"){
     if (strata == TRUE){
-      colour <- NULL
-      objdf <- data.frame(obj$time, obj$HRate, obj$strata, obj$Comparison)
-      names(objdf) <- c("Time", "HRate", "Strata", "Comparision")
-
       ggplot(objdf, aes(Time, HRate, colour = factor(Strata))) +
+        geom_facet(.~ Comparison)
         geom_point(alpha = I(palpha), size = psize) +
         geom_smooth(method = smoother, size = lsize, se = FALSE) +
         scale_y_continuous()+
@@ -73,13 +99,11 @@ ggtvc <- function(obj, qi = "Relative Hazard", strata = FALSE, xlab = NULL, ylab
         theme_bw(base_size = 15)
 
     } else if (strata == FALSE){
-      spalette <- NULL
-      objdf <- data.frame(obj$time, obj$HR, obj$Comparison)
-      names(objdf) <- c("Time", "HR", "Comparison")
-      ggplot(objdf, aes(Time, HR, group = Comparison)) +
-        geom_point(shape = 21, alpha = I(palpha), size = psize, colour = colour) +
+      ggplot(objdf, aes(Time, HR, colour = factor(Comparison))) +
+        geom_point(shape = 21, alpha = I(palpha), size = psize) +
         geom_smooth(method = smoother, size = lsize, se = FALSE) +
         geom_hline(aes(yintercept = 1), linetype = "dotted") +
+        scale_colour_brewer(palette = spalette, name = leg.name) +
         scale_y_continuous()+
         scale_x_continuous() +
         xlab(xlab) + ylab(ylab) +
@@ -89,10 +113,6 @@ ggtvc <- function(obj, qi = "Relative Hazard", strata = FALSE, xlab = NULL, ylab
     }
   } else if (qi == "Relative Hazard"){
     if (strata == TRUE){
-      colour <- NULL
-      objdf <- data.frame(obj$time, obj$HRate, obj$strata)
-      names(objdf) <- c("Time", "HRate", "Strata")
-
       ggplot(objdf, aes(Time, HRate, colour = factor(Strata))) +
         geom_point(alpha = I(palpha), size = psize) +
         geom_smooth(method = smoother, size = lsize, se = FALSE) +
@@ -105,9 +125,6 @@ ggtvc <- function(obj, qi = "Relative Hazard", strata = FALSE, xlab = NULL, ylab
         theme_bw(base_size = 15)
 
     } else if (strata == FALSE){
-      spalette <- NULL
-      objdf <- data.frame(obj$time, obj$HR)
-      names(objdf) <- c("Time", "HR")
       ggplot(objdf, aes(Time, HR)) +
         geom_point(shape = 21, alpha = I(palpha), size = psize, colour = colour) +
         geom_smooth(method = smoother, size = lsize, se = FALSE) +
@@ -120,9 +137,6 @@ ggtvc <- function(obj, qi = "Relative Hazard", strata = FALSE, xlab = NULL, ylab
         theme_bw(base_size = 15)
     }
   } else if (qi == "First Difference"){
-      spalette <- NULL
-      objdf <- data.frame(obj$time, obj$FirstDiff, obj$Comparison)
-      names(objdf) <- c("Time", "FirstDiff", "Comparison")
       ggplot(objdf, aes(Time, FirstDiff, group = Comparison)) +
         geom_point(shape = 21, alpha = I(palpha), size = psize, colour = colour) +
         geom_smooth(method = smoother, size = lsize, se = FALSE) +

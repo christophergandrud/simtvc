@@ -3,8 +3,9 @@
 \title{Create a plot of simulated time-varying hazard ratios or stratified time-varying hazard rates from a simtvc class object using ggplot2}
 \usage{
   ggtvc(obj, qi = "Relative Hazard", strata = FALSE,
-    xlab = NULL, ylab = NULL, title = NULL, xbreaks = NULL,
-    xlabels = NULL, smoother = "auto", colour = "#A6CEE3",
+    from = NULL, to = NULL, xlab = NULL, ylab = NULL,
+    title = NULL, xbreaks = NULL, xlabels = NULL,
+    smoother = "auto", colour = "#A6CEE3",
     spalette = "Set1", leg.name = "", lsize = 2, psize = 1,
     palpha = 0.1, ...)
 }
@@ -19,6 +20,10 @@
 
   \item{strata}{logical whether or not you would like to
   plot the hazard rate for the separate strata}
+
+  \item{from}{numeric time to start the plot from.}
+
+  \item{to}{numeric time to plot to.}
 
   \item{xlab}{a label for the plot's x-axis}
 
@@ -36,8 +41,9 @@
   \item{smoother}{what type of smoothing line to use to
   summarize the plotted coefficient}
 
-  \item{colour}{colour of the simulated points. Default is
-  hexadecimal colour A6CEE3.}
+  \item{colour}{character string colour of the simulated
+  points for relative hazards. Default is hexadecimal
+  colour A6CEE3. Works if \code{strata = FALSE}.}
 
   \item{spalette}{colour palette for stratified hazard
   rates. Only works if \code{strata = TRUE}. Default

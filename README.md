@@ -3,7 +3,9 @@ simtvc
 
 ### Christopher Gandrud
 
-### Version 0.03.1
+### Version 0.04
+
+### Note: **simtvc** is in beta.
 
 ---
 

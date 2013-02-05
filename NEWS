@@ -1,3 +1,9 @@
+	  Version 0.04
+
+Added ability to for `coxsimtvc` to calculate `'Relative Hazard', 'First Difference', and 'Hazard Ratios'. 
+
+Corresponding graphing functions added to `ggtvc`.
+
       Version 0.03.1
 
 Examples and documentation improvements.
