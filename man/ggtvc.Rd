@@ -135,7 +135,12 @@ Sim3 <- coxsimtvc(obj = M1, b = "backlog", btvc = "Lbacklog",
 # Create plots
 ggtvc(Sim1, qi = "Relative Hazard")
 ggtvc(Sim2, qi = "First Difference")
-ggtvc(Sim3, qi = "Hazard Ratio", leg.name = "Comparision", to = 150)
+ggtvc(Sim3, qi = "Hazard Ratio", leg.name = "Comparision", from = 1200)
+}
+\references{
+  Licht, Amanda A. 2011. “Change Comes with Time:
+  Substantive Interpretation of Nonproportional Hazards in
+  Event History Analysis.” Political Analysis 19: 227–43.
 }
 \seealso{
   \code{\link{coxsimtvc}} and \code{\link{ggplot2}}

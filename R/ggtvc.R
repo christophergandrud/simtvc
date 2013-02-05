@@ -73,10 +73,11 @@
 #' # Create plots
 #' ggtvc(Sim1, qi = "Relative Hazard")
 #' ggtvc(Sim2, qi = "First Difference")
-#' ggtvc(Sim3, qi = "Hazard Ratio", leg.name = "Comparision", to = 150)
+#' ggtvc(Sim3, qi = "Hazard Ratio", leg.name = "Comparision", from = 1200)
 #' @seealso \code{\link{coxsimtvc}} and \code{\link{ggplot2}}
 #' @import ggplot2
 #' @export
+#' @references Licht, Amanda A. 2011. “Change Comes with Time: Substantive Interpretation of Nonproportional Hazards in Event History Analysis.” Political Analysis 19: 227–43.
 
 ggtvc <- function(obj, qi = "Relative Hazard", strata = FALSE, from = NULL, to = NULL, xlab = NULL, ylab = NULL, title = NULL, xbreaks = NULL, xlabels = NULL, smoother = "auto", colour = "#A6CEE3", spalette = "Set1", leg.name = "", lsize = 2, psize = 1, palpha = 0.1, ...)
 {

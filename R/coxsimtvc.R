@@ -1,6 +1,6 @@
-#' Simulate time-varying relative hazards from coxph fitted model objects
+#' Simulate time-varying hazards from coxph fitted model objects
 #' 
-#' \code{coxsimtvc} simulates a time-varying relative hazards from coxph fitted model objects using the normal distribution.
+#' \code{coxsimtvc} simulates time-varying hazards from coxph fitted model objects using the normal distribution.
 #' @param obj a coxph fitted model object with a time interaction. 
 #' @param b the non-time interacted variable's name.
 #' @param btvc the time interacted variable's name.
@@ -16,15 +16,24 @@
 #' @param ci the proportion of middle simulations to keep. The default is \code{ci = "95"}, i.e. keep the middle 95 percent. Other possibilities include: \code{"90"}, \code{"99"}, \code{"all"}.
 #' @param strata logical for whether or not the coxph model used stratification and you would like to simulate the hazard rates for each strata
 #' @return a simtvc object
-#' @details Simulates time-varying hazard ratios using estimates from a \code{coxph} proportional hazards model. 
+#' @details Simulates time-varying relative hazards, first differences, and hazard ratios using parameter estimates from \code{coxph} models. Can also simulate hazard rates for multiple strata.
 #'
-#' When simulating non-stratifed time-varying harzard ratios \code{coxsimtvc} uses the point estimates for a given coefficient \eqn{\hat{\beta}_{x}} and its time interaction \eqn{\hat{\beta}_{xt}} along with the variance matrix (\eqn{\hat{V}(\hat{\beta})}) estimated from a \code{coxph} model. These are used to draw values of \eqn{\beta_{x}} and \eqn{\beta_{xt}} from the multivariate normal distribution \eqn{N(\hat{\beta},\: \hat{V}(\hat{beta}))}.
+#' Relative hazards are found using:
+#' \deqn{RH = e^{\beta_{1} + \beta_{2}f(t)}}
+#' where \eqn{f(t)} is the function of time.
 #'
-#' Using these simulated values combined coefficients \eqn{\beta_{xc}} for each point in time \eqn{t} are estimated using:
-#' \deqn{HR_{xc} = \exp(\beta_{x} + \beta_{xt}(t))} 
+#' First differences are found using:
+#' \deqn{FD = (e^{(X_{j} - X_{l}) (\beta_{1} + \beta_{2}f(t))} - 1) * 100}
+#' where \eqn{X_{j}} and \eqn{X_{l}} are some values of \eqn{X} to contrast.
+#'
+#' Hazard ratios are calculated using:
+#' \deqn{FD = e^{(X_{j} - X_{l}) (\beta_{1} + \beta_{2}f(t))}}
+#' When simulating non-stratifed time-varying harzards \code{coxsimtvc} uses the point estimates for a given coefficient \eqn{\hat{\beta}_{x}} and its time interaction \eqn{\hat{\beta}_{xt}} along with the variance matrix (\eqn{\hat{V}(\hat{\beta})}) estimated from a \code{coxph} model. These are used to draw values of \eqn{\beta_{x}} and \eqn{\beta_{xt}} from the multivariate normal distribution \eqn{N(\hat{\beta},\: \hat{V}(\hat{beta}))}.
+#'
 #' When simulating stratified time-varying hazard rates \eqn{H} for a given strata \eqn{k}, \code{coxsimtvc} uses:
 #' \deqn{H_{kx} = \hat{\beta_{k0}}\exp{\hat{\beta_{x}} + \beta_{xt}(t)}}
 #' The resulting simulation values can be plotted using \code{\link{ggtvc}}. 
+#'
 #' @examples
 #' # Load Golub & Steunenberg (2007) Data
 #' data("GolubEUPData")
