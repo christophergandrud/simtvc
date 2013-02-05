@@ -5,7 +5,7 @@ simtvc
 
 ### Version 0.04
 
-### Note: **simtvc** is in beta. Please report any bugs to <https://github.com/christophergandrud/simtvc/issues>.
+### Note: **simtvc** is in beta. Please report any bugs at <https://github.com/christophergandrud/simtvc/issues>.
 
 ---
 
@@ -16,7 +16,7 @@ The package includes four functions:
 
 - `tvc`: a function for creating time interactions. Currently supports `'linear'`, natural `'log'`, and exponentiation (`'power'`).
 
-- `coxsimtvc`: a function for simulating time-varying hazards (relative hazards, first differences, and hazard ratios) from a Cox PH model estimated using `coxph` from the [survival](http://cran.r-project.org/web/packages/survival/index.html) package. For more information see this [blog post](http://christophergandrud.blogspot.kr/2012/10/graphing-non-proportional-hazards-in-r.html). If `strata = TRUE` the function will also calculated time-varying hazard ratios for multiple strata estimated from a stratified Cox PH model.
+- `coxsimtvc`: a function for simulating time-varying hazards (relative hazards, first differences, and hazard ratios) from a Cox PH model estimated using `coxph` from the [survival](http://cran.r-project.org/web/packages/survival/index.html) package. For more information see this [blog post](http://christophergandrud.blogspot.kr/2012/10/graphing-non-proportional-hazards-in-r.html). If `strata = TRUE` the function will calculate time-varying hazard ratios for multiple strata estimated from a stratified Cox PH model.
 
 - `ggtvc`: uses [ggplot2](http://ggplot2.org/) to graph the simulated relative hazards, first differences, and hazard ratios or stratified hazard rates.
 
