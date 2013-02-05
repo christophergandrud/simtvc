@@ -123,14 +123,21 @@ M1 <- coxph(Surv(begin, end, event) ~
          data = GolubEUPData,
          ties = "efron")
 
- # Create simtvc object for Relative Hazard
- Sim1 <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv",
-                    tfun = "log", from = 80, to = 2000,
-                    by = 15, ci = "99")
+# Create simtvc object for Relative Hazard
+Sim1 <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv",
+                   tfun = "log", from = 80, to = 2000,
+                   by = 15, ci = "99")
 
 # Create simtvc object for First Difference
 Sim2 <- coxsimtvc(obj = M1, b = "backlog", btvc = "Lbacklog",
-                  qi = "First Difference", Xj = c(191, 229), Xl = c(169, 202),
+                  qi = "First Difference",
+                  tfun = "log", from = 80, to = 2000,
+                  by = 15, ci = "99")
+
+# Create simtvc object for Hazard Ratio
+Sim3 <- coxsimtvc(obj = M1, b = "backlog", btvc = "Lbacklog",
+                  qi = "Hazard Ratio", Xj = c(191, 229),
+                  Xl = c(0, 0),
                   tfun = "log", from = 80, to = 2000,
                   by = 15, ci = "99")
 }

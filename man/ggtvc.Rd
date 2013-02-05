@@ -64,17 +64,18 @@
 \description{
   \code{ggtvc} uses ggplot2 to plot the simulated hazard
   ratios from a simtvc class object using ggplot2. Note: A
-  dotted line is created at y = 1, i.e. no effect, for
-  time-varying hazard ratio graphs.
+  dotted line is created at y = 1 (0 for first difference),
+  i.e. no effect, for time-varying hazard ratio graphs.
 }
 \details{
   Plots either a time varying hazard ratio or the hazard
   rates for multiple strata. Currently the strata legend
   labels need to be changed manually (see
-  \code{\link{revalue}}) in the \code{simtvc} object with
-  the \code{strata} component. Also, currently the x-axis
-  tick marks and break labels must be adjusted manually for
-  non-linear functions of time.
+  \code{\link{revalue}} in the \link{plyr} package) in the
+  \code{simtvc} object with the \code{strata} component.
+  Also, currently the x-axis tick marks and break labels
+  must be adjusted manually for non-linear functions of
+  time.
 }
 \examples{
 # Load Golub & Steunenberg (2007) Data

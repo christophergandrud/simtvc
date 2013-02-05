@@ -1,7 +1,7 @@
 #' Create a plot of simulated time-varying hazard ratios or stratified time-varying hazard rates from a simtvc class object using ggplot2
 #' 
 #' \code{ggtvc} uses ggplot2 to plot the simulated hazard ratios from a simtvc class object using ggplot2. 
-#' Note: A dotted line is created at y = 1, i.e. no effect, for time-varying hazard ratio graphs.
+#' Note: A dotted line is created at y = 1 (0 for first difference), i.e. no effect, for time-varying hazard ratio graphs.
 #' @param obj a simtvc class object
 #' @param qi character string indicating what quantity of interest you would like to calculate. Can be \code{'Relative Hazard'}, \code{'First Difference'}, or \code{'Hazard Ratio'}. Default is \code{qi = 'Relative Hazard'}. 
 #' @param strata logical whether or not you would like to plot the hazard rate for the separate strata
@@ -19,7 +19,7 @@
 #' @param palpha point alpha (e.g. transparency). Default is \code{palpha = 0.05}. See \code{\link{ggplot2}}.
 #' @param ... other arguments passed to specific methods
 #' @return a ggplot object
-#' @details Plots either a time varying hazard ratio or the hazard rates for multiple strata. Currently the strata legend labels need to be changed manually (see \code{\link{revalue}}) in the \code{simtvc} object with the \code{strata} component. Also, currently the x-axis tick marks and break labels must be adjusted manually for non-linear functions of time.
+#' @details Plots either a time varying hazard ratio or the hazard rates for multiple strata. Currently the strata legend labels need to be changed manually (see \code{\link{revalue}} in the \link{plyr} package) in the \code{simtvc} object with the \code{strata} component. Also, currently the x-axis tick marks and break labels must be adjusted manually for non-linear functions of time.
 #' @examples
 #' # Load Golub & Steunenberg (2007) Data
 #' data("GolubEUPData")
@@ -54,8 +54,40 @@ ggtvc <- function(obj, qi = "Relative Hazard", strata = FALSE, xlab = NULL, ylab
   if (qi == "First Difference" & strata == TRUE){
     stop("firstDiff and strata cannot both be TRUE")
   }
-  
-  if (qi == "Relative Hazard"){
+
+  if (qi == "Hazard Ratio"){
+    if (strata == TRUE){
+      colour <- NULL
+      objdf <- data.frame(obj$time, obj$HRate, obj$strata, obj$Comparison)
+      names(objdf) <- c("Time", "HRate", "Strata", "Comparision")
+
+      ggplot(objdf, aes(Time, HRate, colour = factor(Strata))) +
+        geom_point(alpha = I(palpha), size = psize) +
+        geom_smooth(method = smoother, size = lsize, se = FALSE) +
+        scale_y_continuous()+
+        scale_x_continuous() +
+        xlab(xlab) + ylab(ylab) +
+        scale_colour_brewer(palette = spalette, name = leg.name) +
+        ggtitle(title) +
+        guides(colour = guide_legend(override.aes = list(alpha = 1))) +
+        theme_bw(base_size = 15)
+
+    } else if (strata == FALSE){
+      spalette <- NULL
+      objdf <- data.frame(obj$time, obj$HR, obj$Comparison)
+      names(objdf) <- c("Time", "HR", "Comparison")
+      ggplot(objdf, aes(Time, HR, group = Comparison)) +
+        geom_point(shape = 21, alpha = I(palpha), size = psize, colour = colour) +
+        geom_smooth(method = smoother, size = lsize, se = FALSE) +
+        geom_hline(aes(yintercept = 1), linetype = "dotted") +
+        scale_y_continuous()+
+        scale_x_continuous() +
+        xlab(xlab) + ylab(ylab) +
+        ggtitle(title) +
+        guides(colour = guide_legend(override.aes = list(alpha = 1))) +
+        theme_bw(base_size = 15)
+    }
+  } else if (qi == "Relative Hazard"){
     if (strata == TRUE){
       colour <- NULL
       objdf <- data.frame(obj$time, obj$HRate, obj$strata)
@@ -86,23 +118,20 @@ ggtvc <- function(obj, qi = "Relative Hazard", strata = FALSE, xlab = NULL, ylab
         ggtitle(title) +
         guides(colour = guide_legend(override.aes = list(alpha = 1))) +
         theme_bw(base_size = 15)
-      }
-  }
-
-  if (qi == "First Difference"){
+    }
+  } else if (qi == "First Difference"){
       spalette <- NULL
       objdf <- data.frame(obj$time, obj$FirstDiff, obj$Comparison)
       names(objdf) <- c("Time", "FirstDiff", "Comparison")
       ggplot(objdf, aes(Time, FirstDiff, group = Comparison)) +
         geom_point(shape = 21, alpha = I(palpha), size = psize, colour = colour) +
         geom_smooth(method = smoother, size = lsize, se = FALSE) +
-        geom_hline(aes(yintercept = 1), linetype = "dotted") +
+        geom_hline(aes(yintercept = 0), linetype = "dotted") +
         scale_y_continuous()+
         scale_x_continuous() +
         xlab(xlab) + ylab(ylab) +
         ggtitle(title) +
         guides(colour = guide_legend(override.aes = list(alpha = 1))) +
         theme_bw(base_size = 15)
-      }
-
+  }
 }
