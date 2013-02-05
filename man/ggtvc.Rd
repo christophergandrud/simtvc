@@ -65,7 +65,7 @@
   \item{...}{other arguments passed to specific methods}
 }
 \value{
-  a ggplot object
+  a ggplot2 object
 }
 \description{
   \code{ggtvc} uses ggplot2 to plot the simulated hazard
@@ -85,26 +85,56 @@
 }
 \examples{
 # Load Golub & Steunenberg (2007) Data
+# Load Golub & Steunenberg (2007) Data
 data("GolubEUPData")
 
 # Load survival package
 library(survival)
 
 # Create natural log time interactions
-GolubEUPData$Lqmv <- tvc(GolubEUPData, b = "qmv", tvar = "end", tfun = "log")
+Golubtvc <- function(x){
+  assign(paste0("l", x), tvc(GolubEUPData, b = x, tvar = "end", tfun = "log"))
+}
+
+GolubEUPData$Lcoop <-Golubtvc("coop")
+GolubEUPData$Lqmv <- Golubtvc("qmv")
+GolubEUPData$Lbacklog <- Golubtvc("backlog")
+GolubEUPData$Lcodec <- Golubtvc("codec")
+GolubEUPData$Lqmvpostsea <- Golubtvc("qmvpostsea")
+GolubEUPData$Lthatcher <- Golubtvc("thatcher")
 
 # Run Cox PH Model
-M1 <- coxph(Surv(begin, end, event) ~  qmv + Lqmv,
-           data = GolubEUPData,
-           ties = "efron")
+M1 <- coxph(Surv(begin, end, event) ~
+            qmv + qmvpostsea + qmvpostteu +
+            coop + codec + eu9 + eu10 + eu12 +
+            eu15 + thatcher + agenda + backlog +
+            Lqmv + Lqmvpostsea + Lcoop + Lcodec +
+            Lthatcher + Lbacklog,
+         data = GolubEUPData,
+         ties = "efron")
 
-# Create simtvc object
-simM1 <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv",
-                 tfun = "log", from = 80, to = 2000,
-                 by = 15, ci = "99")
+# Create simtvc object for Relative Hazard
+Sim1 <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv",
+                   tfun = "log", from = 80, to = 2000,
+                   by = 15, ci = "99")
 
-# Graph simulated time-variying hazard ratios from simtvc object
-ggtvc(simM1)
+# Create simtvc object for First Difference
+Sim2 <- coxsimtvc(obj = M1, b = "backlog", btvc = "Lbacklog",
+                  qi = "First Difference",
+                  tfun = "log", from = 80, to = 2000,
+                  by = 15, ci = "99")
+
+# Create simtvc object for Hazard Ratio
+Sim3 <- coxsimtvc(obj = M1, b = "backlog", btvc = "Lbacklog",
+                  qi = "Hazard Ratio", Xj = c(191, 229),
+                  Xl = c(0, 0),
+                  tfun = "log", from = 80, to = 2000,
+                  by = 15, ci = "99")
+
+# Create plots
+ggtvc(Sim1, qi = "Relative Hazard")
+ggtvc(Sim2, qi = "First Difference")
+ggtvc(Sim3, qi = "Hazard Ratio", leg.name = "Comparision", to = 60)
 }
 \seealso{
   \code{\link{coxsimtvc}} and \code{\link{ggplot2}}

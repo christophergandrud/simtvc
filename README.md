@@ -5,7 +5,7 @@ simtvc
 
 ### Version 0.04
 
-### Note: **simtvc** is in beta.
+### Note: **simtvc** is in beta. Please report any bugs to <https://github.com/christophergandrud/simtvc/issues>.
 
 ---
 

@@ -20,9 +20,10 @@
 #' @param psize size of the plotted simulation points. Default is \code{psize = 1}. See \code{\link{ggplot2}}.
 #' @param palpha point alpha (e.g. transparency). Default is \code{palpha = 0.05}. See \code{\link{ggplot2}}.
 #' @param ... other arguments passed to specific methods
-#' @return a ggplot object
+#' @return a ggplot2 object
 #' @details Plots either a time varying hazard ratio or the hazard rates for multiple strata. Currently the strata legend labels need to be changed manually (see \code{\link{revalue}} in the \link{plyr} package) in the \code{simtvc} object with the \code{strata} component. Also, currently the x-axis tick marks and break labels must be adjusted manually for non-linear functions of time.
 #' @examples
+#' # Load Golub & Steunenberg (2007) Data
 #' # Load Golub & Steunenberg (2007) Data
 #' data("GolubEUPData")
 #' 
@@ -30,20 +31,49 @@
 #' library(survival)
 #' 
 #' # Create natural log time interactions
-#' GolubEUPData$Lqmv <- tvc(GolubEUPData, b = "qmv", tvar = "end", tfun = "log")
+#' Golubtvc <- function(x){
+#'   assign(paste0("l", x), tvc(GolubEUPData, b = x, tvar = "end", tfun = "log"))
+#' }
+#' 
+#' GolubEUPData$Lcoop <-Golubtvc("coop")
+#' GolubEUPData$Lqmv <- Golubtvc("qmv")
+#' GolubEUPData$Lbacklog <- Golubtvc("backlog")
+#' GolubEUPData$Lcodec <- Golubtvc("codec")
+#' GolubEUPData$Lqmvpostsea <- Golubtvc("qmvpostsea")
+#' GolubEUPData$Lthatcher <- Golubtvc("thatcher") 
 #' 
 #' # Run Cox PH Model
-#' M1 <- coxph(Surv(begin, end, event) ~  qmv + Lqmv, 
-#'            data = GolubEUPData,
-#'            ties = "efron")
-#'
-#' # Create simtvc object
-#' simM1 <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv", 
-#'                  tfun = "log", from = 80, to = 2000, 
-#'                  by = 15, ci = "99")
-#'                  
-#' # Graph simulated time-variying hazard ratios from simtvc object
-#' ggtvc(simM1)
+#' M1 <- coxph(Surv(begin, end, event) ~ 
+#'             qmv + qmvpostsea + qmvpostteu + 
+#'             coop + codec + eu9 + eu10 + eu12 +
+#'             eu15 + thatcher + agenda + backlog +
+#'             Lqmv + Lqmvpostsea + Lcoop + Lcodec +
+#'             Lthatcher + Lbacklog, 
+#'          data = GolubEUPData,
+#'          ties = "efron")
+#'          
+#' # Create simtvc object for Relative Hazard
+#' Sim1 <- coxsimtvc(obj = M1, b = "qmv", btvc = "Lqmv",
+#'                    tfun = "log", from = 80, to = 2000, 
+#'                    by = 15, ci = "99")
+#' 
+#' # Create simtvc object for First Difference  
+#' Sim2 <- coxsimtvc(obj = M1, b = "backlog", btvc = "Lbacklog",
+#'                   qi = "First Difference", 
+#'                   tfun = "log", from = 80, to = 2000, 
+#'                   by = 15, ci = "99")
+#' 
+#' # Create simtvc object for Hazard Ratio  
+#' Sim3 <- coxsimtvc(obj = M1, b = "backlog", btvc = "Lbacklog",
+#'                   qi = "Hazard Ratio", Xj = c(191, 229), 
+#'                   Xl = c(0, 0),
+#'                   tfun = "log", from = 80, to = 2000, 
+#'                   by = 15, ci = "99")
+#'                   
+#' # Create plots
+#' ggtvc(Sim1, qi = "Relative Hazard")
+#' ggtvc(Sim2, qi = "First Difference")
+#' ggtvc(Sim3, qi = "Hazard Ratio", leg.name = "Comparision", to = 60)
 #' @seealso \code{\link{coxsimtvc}} and \code{\link{ggplot2}}
 #' @import ggplot2
 #' @export
@@ -60,7 +90,7 @@ ggtvc <- function(obj, qi = "Relative Hazard", strata = FALSE, from = NULL, to =
   if (qi == "Hazard Ratio" & strata == TRUE){
     colour <- NULL
     objdf <- data.frame(obj$time, obj$HRate, obj$strata, obj$Comparison)
-    names(objdf) <- c("Time", "HRate", "Strata", "Comparision")
+    names(objdf) <- c("Time", "HRate", "Strata", "Comparison")
   } else if (qi == "Hazard Ratio" & strata == FALSE){
       objdf <- data.frame(obj$time, obj$HR, obj$Comparison)
       names(objdf) <- c("Time", "HR", "Comparison")
@@ -86,10 +116,10 @@ ggtvc <- function(obj, qi = "Relative Hazard", strata = FALSE, from = NULL, to =
 
   if (qi == "Hazard Ratio"){
     if (strata == TRUE){
-      ggplot(objdf, aes(Time, HRate, colour = factor(Strata))) +
-        geom_facet(.~ Comparison)
+      ggplot(objdf, aes(x = Time, y = HRate, colour = factor(Comparison))) +
         geom_point(alpha = I(palpha), size = psize) +
         geom_smooth(method = smoother, size = lsize, se = FALSE) +
+        facet_grid(.~ Strata) +
         scale_y_continuous()+
         scale_x_continuous() +
         xlab(xlab) + ylab(ylab) +
