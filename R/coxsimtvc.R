@@ -105,16 +105,21 @@ coxsimtvc <- function(obj, b, btvc, qi = "Relative Hazard", Xj = 1, Xl = 0, tfun
   }
     
   if (tfun == "linear"){
-    Range <- seq(from = from, to = to, by = by)
+    tf <- seq(from = from, to = to, by = by)
   } else if (tfun == "log"){
-    Range <- log(seq(from = from, to = to, by = by))
+    tf <- log(seq(from = from, to = to, by = by))
   } else if (tfun == "power"){
-    Range <- (seq(from = from, to = to, by = by))^pow
+    tf <- (seq(from = from, to = to, by = by))^pow
   }
   
-  TVSim <- outer(Drawn[,2], Range)
+  TVSim <- outer(Drawn[,2], tf)
+
   TVSim <- data.frame(melt(TVSim))
   TVSim <- rename(TVSim, c(Var1 = "ID", Var2 = "time", value = "TVC"))
+  time <- 1:length(tf)
+  Tempdf <- data.frame(time, tf)
+  TVSim <- merge(TVSim, Tempdf)
+
   TVSim <- merge(Drawn, TVSim, by = "ID")
 
   TVSim$CombCoef <- TVSim[[2]] + TVSim$TVC
@@ -167,6 +172,14 @@ coxsimtvc <- function(obj, b, btvc, qi = "Relative Hazard", Xj = 1, Xl = 0, tfun
     TVSimPerc <- ddply(TVSim, .(time), transform, Lower = HR < quantile(HR, c(0.005)))
     TVSimPerc <- ddply(TVSimPerc, .(time), transform, Upper = HR > quantile(HR, 0.995))
     TVSimPerc <- subset(TVSimPerc, Lower == FALSE & Upper == FALSE)
+  }
+
+  if (tfun == "linear"){
+    TVSimPerc$RealTime <- TVSimPerc$tf
+  } else if (tfun == "log"){
+    TVSimPerc$RealTime <- exp(TVSimPerc$tf)
+  } else if (tfun == "power"){
+    TVSimPerc$RealTime <- TVSimPerc$tf^(1/pow)
   }
   
   class(TVSimPerc) <- "simtvc"

@@ -25,9 +25,10 @@
 
   \item{to}{numeric time to plot to.}
 
-  \item{xlab}{a label for the plot's x-axis}
+  \item{xlab}{a label for the plot's x-axis.}
 
-  \item{ylab}{a label of the plot's y-axis}
+  \item{ylab}{a label of the plot's y-axis. The default
+  uses the value of \code{qi}.}
 
   \item{title}{the plot's main title}
 
@@ -134,7 +135,7 @@ Sim3 <- coxsimtvc(obj = M1, b = "backlog", btvc = "Lbacklog",
 # Create plots
 ggtvc(Sim1, qi = "Relative Hazard")
 ggtvc(Sim2, qi = "First Difference")
-ggtvc(Sim3, qi = "Hazard Ratio", leg.name = "Comparision", to = 60)
+ggtvc(Sim3, qi = "Hazard Ratio", leg.name = "Comparision", to = 150)
 }
 \seealso{
   \code{\link{coxsimtvc}} and \code{\link{ggplot2}}

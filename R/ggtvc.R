@@ -7,8 +7,8 @@
 #' @param strata logical whether or not you would like to plot the hazard rate for the separate strata
 #' @param from numeric time to start the plot from.
 #' @param to numeric time to plot to.
-#' @param xlab a label for the plot's x-axis
-#' @param ylab a label of the plot's y-axis
+#' @param xlab a label for the plot's x-axis.
+#' @param ylab a label of the plot's y-axis. The default uses the value of \code{qi}.
 #' @param title the plot's main title
 #' @param xbreaks breaks for x axis tick marks. These will be on the scale you used for the transformed function of time.
 #' @param xlabels labels for the x axis tick marks. These should be on the real time scale. 
@@ -73,7 +73,7 @@
 #' # Create plots
 #' ggtvc(Sim1, qi = "Relative Hazard")
 #' ggtvc(Sim2, qi = "First Difference")
-#' ggtvc(Sim3, qi = "Hazard Ratio", leg.name = "Comparision", to = 60)
+#' ggtvc(Sim3, qi = "Hazard Ratio", leg.name = "Comparision", to = 150)
 #' @seealso \code{\link{coxsimtvc}} and \code{\link{ggplot2}}
 #' @import ggplot2
 #' @export
@@ -87,24 +87,30 @@ ggtvc <- function(obj, qi = "Relative Hazard", strata = FALSE, from = NULL, to =
     stop("firstDiff and strata cannot both be TRUE")
   }
 
+  if (is.null(ylab)){
+    ylab <- paste(qi, "\n")
+  } else {
+    ylab <- ylab
+  }
+
   if (qi == "Hazard Ratio" & strata == TRUE){
     colour <- NULL
-    objdf <- data.frame(obj$time, obj$HRate, obj$strata, obj$Comparison)
+    objdf <- data.frame(obj$RealTime, obj$HRate, obj$strata, obj$Comparison)
     names(objdf) <- c("Time", "HRate", "Strata", "Comparison")
   } else if (qi == "Hazard Ratio" & strata == FALSE){
-      objdf <- data.frame(obj$time, obj$HR, obj$Comparison)
+      objdf <- data.frame(obj$RealTime, obj$HR, obj$Comparison)
       names(objdf) <- c("Time", "HR", "Comparison")
   } else if (qi == "Relative Hazard" & strata == TRUE){
       colour <- NULL
-      objdf <- data.frame(obj$time, obj$HRate, obj$strata)
+      objdf <- data.frame(obj$RealTime, obj$HRate, obj$strata)
       names(objdf) <- c("Time", "HRate", "Strata")
   } else if (qi == "Relative Hazard" & strata == FALSE){
       spalette <- NULL
-      objdf <- data.frame(obj$time, obj$HR)
+      objdf <- data.frame(obj$RealTime, obj$HR)
       names(objdf) <- c("Time", "HR")
   } else if (qi == "First Difference"){
       spalette <- NULL
-      objdf <- data.frame(obj$time, obj$FirstDiff, obj$Comparison)
+      objdf <- data.frame(obj$RealTime, obj$FirstDiff, obj$Comparison)
       names(objdf) <- c("Time", "FirstDiff", "Comparison")
   }
   if (!is.null(from)){

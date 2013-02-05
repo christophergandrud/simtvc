@@ -4,6 +4,10 @@ Added ability to for `coxsimtvc` to calculate `'Relative Hazard', 'First Differe
 
 Corresponding graphing functions added to `ggtvc`.
 
+Real time (time before transformation in TVC) used in the plots.
+
+Set default ylab to the value of qi.
+
       Version 0.03.1
 
 Examples and documentation improvements.
