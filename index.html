@@ -7,7 +7,6 @@
 
     <link rel="stylesheet" href="stylesheets/styles.css">
     <link rel="stylesheet" href="stylesheets/pygment_trac.css">
-    <script src="javascripts/scale.fix.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
@@ -16,27 +15,28 @@
   <body>
     <div class="wrapper">
       <header>
-        <h1 class="header">simtvc</h1>
-        <p class="header">Tools for simulating and graphing time-varying coefficients.</p>
+        <h1>simtvc</h1>
+        <p>Tools for simulating and graphing time-varying coefficients.</p>
+
+        <p class="view"><a href="https://github.com/christophergandrud/simtvc">View the Project on GitHub <small>christophergandrud/simtvc</small></a></p>
+
 
         <ul>
-          <li class="download"><a class="buttons" href="https://github.com/christophergandrud/simtvc/zipball/master">Download ZIP</a></li>
-          <li class="download"><a class="buttons" href="https://github.com/christophergandrud/simtvc/tarball/master">Download TAR</a></li>
-          <li><a class="buttons github" href="https://github.com/christophergandrud/simtvc">View On GitHub</a></li>
+          <li><a href="https://github.com/christophergandrud/simtvc/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/christophergandrud/simtvc/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/christophergandrud/simtvc">View On <strong>GitHub</strong></a></li>
         </ul>
-
-        <p class="header">This project is maintained by <a class="header name" href="https://github.com/christophergandrud">christophergandrud</a></p>
-
-
       </header>
       <section>
-        <h1>simtvc</h1>
+        <h1>simtvc is depricated. It's functions have been moved to <a href="https://github.com/christophergandrud/simPH">simPH</a>.</h1>
+
+<h1>simtvc</h1>
 
 <h3>Christopher Gandrud</h3>
 
 <h3>Version 0.04</h3>
 
-<h3>Note: <strong>simtvc</strong> is in beta. Please report any bugs at <a href="https://github.com/christophergandrud/simtvc/issues">https://github.com/christophergandrud/simtvc/issues</a>.</h3>
+<h3>Note: <strong>simtvc</strong> is in beta. Please report any bugs at: <a href="https://github.com/christophergandrud/simtvc/issues">https://github.com/christophergandrud/simtvc/issues</a>.</h3>
 
 <hr><p>An R package for simulating and graphing non-proportional hazards (relative hazards, first differences, and hazard ratios) from <a href="http://en.wikipedia.org/wiki/Proportional_hazards_models">Cox Proportional Hazard (PH) models</a>. It can also simulate and graph stratified non-proportional hazard rates from Cox models.</p>
 
@@ -51,7 +51,7 @@
 
 <p>Use the <a href="https://github.com/hadley/devtools">devtools</a> command <code>install_github</code> to install <strong>simtvc</strong> in R. Here is the exact code for installing the most recent stable version:</p>
 
-<div class="highlight"><pre>devtools<span class="p">::</span>install_github<span class="p">(</span><span class="s">"simtvc"</span><span class="p">,</span> <span class="s">"christophergandrud"</span><span class="p">,</span> ref <span class="o">=</span> <span class="s">"v0.04"</span><span class="p">)</span>
+<div class="highlight"><pre><span class="nv">devtools::install_github</span><span class="gs">(</span><span class="s">"simtvc"</span><span class="nv">,</span> <span class="s">"christophergandrud"</span><span class="nv">,</span> <span class="nv">ref</span> <span class="o">=</span> <span class="s">"v0.04"</span><span class="gs">)</span>
 </pre></div>
 
 <h2>Sources</h2>
@@ -77,11 +77,12 @@
 <p>I am also working on a way to graph hazard ratios with frailties. </p>
       </section>
       <footer>
-        <p><small>Hosted on <a href="https://pages.github.com">GitHub Pages</a> using the Dinky theme</small></p>
+        <p>This project is maintained by <a href="https://github.com/christophergandrud">christophergandrud</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
     </div>
-    <!--[if !IE]><script>fixScale(document);</script><![endif]-->
-		          <script type="text/javascript">
+    <script src="javascripts/scale.fix.js"></script>
+              <script type="text/javascript">
             var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
             document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
           </script>
