@@ -1,3 +1,6 @@
+simtvc is depricated. It's functions have been moved to [simPH](https://github.com/christophergandrud/simPH).
+=====
+
 simtvc
 ======
 
@@ -5,7 +8,7 @@ simtvc
 
 ### Version 0.04
 
-### Note: **simtvc** is in beta. Please report any bugs at <https://github.com/christophergandrud/simtvc/issues>.
+### Note: **simtvc** is in beta. Please report any bugs at: <https://github.com/christophergandrud/simtvc/issues>.
 
 ---
 
